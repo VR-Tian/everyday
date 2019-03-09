@@ -8,7 +8,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using WebApplication.App_Start;
 
+/// <summary>
+/// 20190308 文件上传样例
+/// 功能：1通过异步实现文件上传；2保存文件方式实现自定义
+/// </summary>
 namespace WebApplication.Controllers
 {
     public class FileUploadController : ApiController
@@ -58,9 +63,12 @@ namespace WebApplication.Controllers
                     {
                         //string newFileName = fileInfo.Name + fileExt;
                         string newFileName = Guid.NewGuid().ToString() + fileExt;
-                        //最后保存文件路径
-                        string saveUrl = Path.Combine(root, newFileName);
-                        fileInfo.MoveTo(saveUrl);
+                        ////最后保存文件路径
+                        //string saveUrl = Path.Combine(root, newFileName);
+
+                        //fileInfo.MoveTo(saveUrl);
+
+                        return FileSaveConfig.SaveFileProc(root, newFileName, fileInfo);
                     }
                 }
                 return Request.CreateResponse(HttpStatusCode.OK);
