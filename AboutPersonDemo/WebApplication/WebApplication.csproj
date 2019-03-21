@@ -86,9 +86,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FileSaveConfig.cs" />
+    <Compile Include="App_Start\RequestAuthorizeAttribute.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\TestRouteController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

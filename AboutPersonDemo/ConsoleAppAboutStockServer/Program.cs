@@ -31,7 +31,7 @@ namespace ConsoleAppAboutStockServer
 
             // Create a TCP/IP socket.  
             Socket listener = new Socket(ipAddress.AddressFamily,
-                SocketType.Stream, ProtocolType.Tcp);
+                SocketType.Raw, ProtocolType.Raw);
 
             // Bind the socket to the local endpoint and   
             // listen for incoming connections.  

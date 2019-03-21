@@ -12,11 +12,31 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
+            #region 20190320 关于基本类型学习
+            //字节byte、比特(位)bit  = >1byte=8bit 
+            char[] chars = new char[4];
+            chars[0] = 'X';        // Character literal
+            chars[1] = '\x0058';   // Hexadecimal
+            chars[2] = (char)88;   // Cast from integral type
+            chars[3] = '\u0058';   // Unicode
+            foreach (char c in chars)
+            {
+                Console.Write(c + " ");
+            }
+
+
+            string test = "总所周知 A B C";
+            var strToBytes = System.Text.Encoding.Unicode.GetBytes(test);
+            var bytesToStr = System.Text.Encoding.Unicode.GetString(strToBytes);
+            Console.WriteLine(bytesToStr);
+            
+            Console.ReadKey();
+            #endregion
+
             #region 20190317-19-40 socket
 
             //了解网络传输过程中涉及到的理论知识，以及.NET网络编程的使用方式
             //了解套接字与具体Http、Utp协议的关系与区别
-
             // Data buffer for incoming data.  
             byte[] bytes = new byte[1024];
 
@@ -31,7 +51,7 @@ namespace ConsoleApp
 
                 // Create a TCP/IP  socket.  
                 Socket sender = new Socket(ipAddress.AddressFamily,
-                    SocketType.Stream, ProtocolType.Tcp);
+                    SocketType.Raw, ProtocolType.Raw);
 
                 // Connect the socket to the remote endpoint. Catch any errors.  
                 try
@@ -78,6 +98,7 @@ namespace ConsoleApp
 
 
             #endregion
+
             #region 长度问题
             string printStr = "Pfizer Manufacturing Deutschland GmbH，Betriebsstatte Freiburg";
             Console.WriteLine(printStr.Length);
