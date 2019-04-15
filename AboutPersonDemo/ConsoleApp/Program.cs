@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -12,25 +13,30 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
+
+            #region MyRegion
+
+            #endregion
+
             #region 20190320 关于基本类型学习
             //字节byte、比特(位)bit  = >1byte=8bit 
-            char[] chars = new char[4];
-            chars[0] = 'X';        // Character literal
-            chars[1] = '\x0058';   // Hexadecimal
-            chars[2] = (char)88;   // Cast from integral type
-            chars[3] = '\u0058';   // Unicode
-            foreach (char c in chars)
-            {
-                Console.Write(c + " ");
-            }
+            //char[] chars = new char[4];
+            //chars[0] = 'X';        // Character literal
+            //chars[1] = '\x0058';   // Hexadecimal
+            //chars[2] = (char)88;   // Cast from integral type
+            //chars[3] = '\u0058';   // Unicode
+            //foreach (char c in chars)
+            //{
+            //    Console.Write(c + " ");
+            //}
 
 
-            string test = "总所周知 A B C";
-            var strToBytes = System.Text.Encoding.Unicode.GetBytes(test);
-            var bytesToStr = System.Text.Encoding.Unicode.GetString(strToBytes);
-            Console.WriteLine(bytesToStr);
-            
-            Console.ReadKey();
+            //string test = "总所周知 A B C";
+            //var strToBytes = System.Text.Encoding.Unicode.GetBytes(test);
+            //var bytesToStr = System.Text.Encoding.Unicode.GetString(strToBytes);
+            //Console.WriteLine(bytesToStr);
+
+            //Console.ReadKey();
             #endregion
 
             #region 20190317-19-40 socket
@@ -38,7 +44,7 @@ namespace ConsoleApp
             //了解网络传输过程中涉及到的理论知识，以及.NET网络编程的使用方式
             //了解套接字与具体Http、Utp协议的关系与区别
             // Data buffer for incoming data.  
-            byte[] bytes = new byte[1024];
+            byte[] bytes = null;
 
             // Connect to a remote device.  
             try
@@ -51,7 +57,7 @@ namespace ConsoleApp
 
                 // Create a TCP/IP  socket.  
                 Socket sender = new Socket(ipAddress.AddressFamily,
-                    SocketType.Raw, ProtocolType.Raw);
+                    SocketType.Stream, ProtocolType.Tcp);
 
                 // Connect the socket to the remote endpoint. Catch any errors.  
                 try
@@ -61,20 +67,22 @@ namespace ConsoleApp
                     Console.WriteLine("Socket connected to {0}",
                         sender.RemoteEndPoint.ToString());
 
-                    // Encode the data string into a byte array.  
-                    byte[] msg = Encoding.ASCII.GetBytes("This is a test<EOF>");
+                    // Encode the data string into a byte array.
+                    var bufferOfreadfile = File.ReadAllBytes(@"C:\Program Files (x86)\VR_Work\CentOS\CentOS-7-x86_64-Minimal-1810.iso");
+                    //byte[] msg = Encoding.UTF8.GetBytes("png");
 
                     // Send the data through the socket.  
-                    int bytesSent = sender.Send(msg);
-
+                    int bytesSent = sender.Send(bufferOfreadfile);
+                    bytes = new byte[sender.ReceiveBufferSize];
                     // Receive the response from the remote device.  
                     int bytesRec = sender.Receive(bytes);
                     Console.WriteLine("Echoed test = {0}",
-                        Encoding.ASCII.GetString(bytes, 0, bytesRec));
+                        Encoding.UTF8.GetString(bytes, 0, bytesRec));
 
                     // Release the socket.  
                     sender.Shutdown(SocketShutdown.Both);
                     sender.Close();
+                    
 
                 }
                 catch (ArgumentNullException ane)
@@ -100,10 +108,23 @@ namespace ConsoleApp
             #endregion
 
             #region 长度问题
-            string printStr = "Pfizer Manufacturing Deutschland GmbH，Betriebsstatte Freiburg";
-            Console.WriteLine(printStr.Length);
+            //string printStr = "Pfizer Manufacturing Deutschland GmbH，Betriebsstatte Freiburg";
+            //Console.WriteLine(printStr.Length);
             Console.ReadKey();
             #endregion
+
+        }
+
+        public static string GetFileInfo(string path)
+        {
+            var fileIsExistFlag = File.Exists(path);
+            if (!fileIsExistFlag)
+            {
+                return null;
+            }
+            var path1 = Path.GetFileName(path);
+            var path2 = Path.GetExtension(path);
+            return path1;
         }
     }
 }

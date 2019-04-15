@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -31,7 +32,7 @@ namespace ConsoleAppAboutStockServer
 
             // Create a TCP/IP socket.  
             Socket listener = new Socket(ipAddress.AddressFamily,
-                SocketType.Raw, ProtocolType.Raw);
+                SocketType.Stream, ProtocolType.Tcp);
 
             // Bind the socket to the local endpoint and   
             // listen for incoming connections.  
@@ -52,18 +53,21 @@ namespace ConsoleAppAboutStockServer
                     while (true)
                     {
                         int bytesRec = handler.Receive(bytes);
-                        data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                        if (data.IndexOf("<EOF>") > -1)
-                        {
-                            break;
-                        }
+                        File.WriteAllBytes(@"C:\Users\37770\Desktop\vpn\1.iso", bytes);
+
+                        data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
+                        //if (data.IndexOf(" < EOF>") > -1)
+                        //{
+                        //    break;
+                        //}
+                        break;
                     }
 
                     // Show the data on the console.  
-                    Console.WriteLine("Text received : {0}", data);
+                    Console.WriteLine("Server received : {0}", data);
 
                     // Echo the data back to the client.  
-                    byte[] msg = Encoding.ASCII.GetBytes(data);
+                    byte[] msg = Encoding.UTF8.GetBytes("Server received");
 
                     handler.Send(msg);
                     handler.Shutdown(SocketShutdown.Both);
@@ -74,6 +78,7 @@ namespace ConsoleAppAboutStockServer
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
+                StartListening();
             }
 
             Console.WriteLine("\nPress ENTER to continue...");
