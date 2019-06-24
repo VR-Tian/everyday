@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ConsoleApp
@@ -14,7 +16,104 @@ namespace ConsoleApp
         static void Main(string[] args)
         {
 
-            #region MyRegion
+            ToastBread(22);
+            FryEggs(11);
+            Console.ReadKey();
+
+            //同步
+            #region 20190614 同步和异步的学习
+            //int i = 1;
+            //while (true)
+            //{
+            //    FryEggs(2);
+            //    Console.WriteLine("第" + i + "位的顾客鸡蛋正在准备");
+            //    ToastBread(2);
+            //    Console.WriteLine("第" + i + "位的顾客面包正在准备");
+            //    FryBacon(3);
+            //    Console.WriteLine("第" + i + "位的顾客培根正在准备");
+            //    i++;
+            //    Console.ReadLine();
+            //}
+
+            Console.WriteLine("开始获取资源");
+            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            var request = WebRequest.Create("http://github.com/");
+            //request.GetResponse();//发送请求   
+
+            #region 异步
+            request.BeginGetResponse(new AsyncCallback(t =>
+              {
+                  request.EndGetResponse(t);//发送请求
+              }), null);
+            #endregion
+            Console.WriteLine("不等待");
+            Console.ReadKey();
+            #endregion
+
+        }
+
+
+        public static IEnumerable<int> PrimesInRange_Sequential(int start, int end)
+        {
+            List<int> primes = new List<int>();
+            for (int i = start; i < end; i++)
+            {
+                if (IsPrime(i)) primes.Add(i);
+            }
+            return primes;
+        }
+        public static bool IsPrime(int number)
+        {
+            if (number == 2)
+                return true;
+            for (int divisor = 2; divisor < number; divisor ++)
+            {
+                if (number % divisor == 0) return false;
+            }
+            return true;
+        }
+
+        public class MyWebRequest : IAsyncResult
+        {
+            public object AsyncState
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public WaitHandle AsyncWaitHandle
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public bool CompletedSynchronously
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public bool IsCompleted
+            {
+                get { throw new NotImplementedException(); }
+            }
+        }
+
+        static async Task DoBreakfast()
+        {
+
+            #region 20190613 正则
+            //var value = Regex.Match("我123我11", "\\d+(\\.\\d+){0,1}").Value;
+            //Console.ReadKey();
+
+
+            #endregion
+
+            #region int?
+            //int? number = null;
+            //var temp1 = number.Value;
+            //if (number > 1)
+            //{
+            //    Console.WriteLine(1);
+            //}
+            //Console.ReadKey();
 
             #endregion
 
@@ -68,11 +167,13 @@ namespace ConsoleApp
                         sender.RemoteEndPoint.ToString());
 
                     // Encode the data string into a byte array.
-                    var bufferOfreadfile = File.ReadAllBytes(@"C:\Program Files (x86)\VR_Work\CentOS\CentOS-7-x86_64-Minimal-1810.iso");
-                    //byte[] msg = Encoding.UTF8.GetBytes("png");
+                    //较大字节流
+                    //var bufferOfreadfile = File.ReadAllBytes(@"C:\Program Files (x86)\VR_Work\CentOS\CentOS-7-x86_64-Minimal-1810.iso");
+                    //文字字节流
+                    byte[] msg = Encoding.UTF8.GetBytes("我来了");
 
                     // Send the data through the socket.  
-                    int bytesSent = sender.Send(bufferOfreadfile);
+                    int bytesSent = sender.Send(msg);
                     bytes = new byte[sender.ReceiveBufferSize];
                     // Receive the response from the remote device.  
                     int bytesRec = sender.Receive(bytes);
@@ -82,7 +183,7 @@ namespace ConsoleApp
                     // Release the socket.  
                     sender.Shutdown(SocketShutdown.Both);
                     sender.Close();
-                    
+
 
                 }
                 catch (ArgumentNullException ane)
@@ -113,6 +214,36 @@ namespace ConsoleApp
             Console.ReadKey();
             #endregion
 
+        }
+
+        private static void ToastBread(int v)
+        {
+            Task.Run(() =>
+            {
+                Thread.Sleep(v * 1000);
+                Console.WriteLine("打开面包");
+                Console.WriteLine("叮叮面包");
+            });
+        }
+
+        private static void FryBacon(int v)
+        {
+            Task.Run(() =>
+            {
+                Thread.Sleep(v * 1000);
+                Console.WriteLine("打开培根");
+                Console.WriteLine("培根下锅");
+            });
+        }
+
+        private static void FryEggs(int v)
+        {
+            Task.Run(() =>
+            {
+                Thread.Sleep(v * 1000);//模拟耗时
+                Console.WriteLine("打开鸡蛋");
+                Console.WriteLine("鸡蛋下锅");
+            });
         }
 
         public static string GetFileInfo(string path)

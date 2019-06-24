@@ -20,10 +20,21 @@ namespace WebApplication.Controllers
     {
         public async Task<HttpResponseMessage> PostFormData()
         {
-            // Check if the request contains multipart/form-data.
+            //是否包含文件类型请求
             if (!Request.Content.IsMimeMultipartContent())
             {
-                throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+                //同步情况下：
+                //HttpResponseMessage httpResponseMessage = new HttpResponseMessage();
+                //httpResponseMessage.Content = new StringContent("{\"msg\":\"请检查文件是否上传\"}");
+                //httpResponseMessage.StatusCode = HttpStatusCode.HttpVersionNotSupported;
+                //httpResponseMessage.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                //return httpResponseMessage;
+
+                //异步情况下，为当前响应请求创建响应内容
+                var httpResponseMessageOfThis = Request.CreateResponse(HttpStatusCode.HttpVersionNotSupported);
+                httpResponseMessageOfThis.Content = new StringContent("{\"msg\":\"请检查文件是否上传\"}");
+                httpResponseMessageOfThis.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                return httpResponseMessageOfThis;
             }
 
             string root = HttpContext.Current.Server.MapPath("~/App_Data");
@@ -41,7 +52,7 @@ namespace WebApplication.Controllers
 
             try
             {
-                // Read the form data.
+                // Read the form data.(此步骤本地已接受对应上传文件，但此时的文件已文件流形式存在)
                 await Request.Content.ReadAsMultipartAsync(provider);
 
                 // This illustrates how to get the file names.

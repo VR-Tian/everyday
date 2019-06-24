@@ -53,7 +53,7 @@ namespace ConsoleAppAboutStockServer
                     while (true)
                     {
                         int bytesRec = handler.Receive(bytes);
-                        File.WriteAllBytes(@"C:\Users\37770\Desktop\vpn\1.iso", bytes);
+                        //File.WriteAllBytes(@"C:\Users\37770\Desktop\vpn\1.iso", bytes);
 
                         data += Encoding.UTF8.GetString(bytes, 0, bytesRec);
                         //if (data.IndexOf(" < EOF>") > -1)
