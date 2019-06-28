@@ -1,64 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace WebApplication.App_Start
 {
     public static class FileSaveConfig
     {
-
-        public static Task<HttpResponseMessage> ProceFile(MultipartFormDataStreamProvider provider)
-        {
-            int UploadImgMaxByte = 0;
-            string UploadImgType = !string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("UploadImgType")) ?
-                ConfigurationManager.AppSettings.Get("UploadImgType") : "jpg,png,gif,xlsx";
-            string root = HttpContext.Current.Server.MapPath("~/App_Data");
-
-            int.TryParse(ConfigurationManager.AppSettings.Get("UploadImgMaxByte"), out UploadImgMaxByte);
-            UploadImgMaxByte = UploadImgMaxByte > 0 ? UploadImgMaxByte : 8192;
-
-            var httpResponseMessageOfThis = Request.CreateResponse(HttpStatusCode.HttpVersionNotSupported);
-
-            // This illustrates how to get the file names.
-            foreach (MultipartFileData file in provider.FileData)
-            {
-                //获取上传文件名 这里获取含有双引号'" '
-                string fileName = file.Headers.ContentDisposition.FileName.Trim('"');
-                //获取上传文件后缀名
-                string fileExt = fileName.Substring(fileName.LastIndexOf('.'));
-
-                FileInfo fileInfo = new FileInfo(file.LocalFileName);
-
-                if (string.IsNullOrEmpty(fileExt) || string.IsNullOrEmpty(UploadImgType.Split(',').Where(w => w == fileExt.Substring(1).ToLower()).FirstOrDefault()))
-                {
-                    fileInfo.Delete();
-                    return Request.CreateResponse(HttpStatusCode.UnsupportedMediaType, UploadImgType);
-                }
-                if (fileInfo.Length > UploadImgMaxByte)
-                {
-                    httpResponseMessageOfThis.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(new { Message = string.Format("文件大小超过上限{0}KB", (UploadImgMaxByte / 1024m)) }));
-                    httpResponseMessageOfThis.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
-                    return httpResponseMessageOfThis;
-                }
-                else
-                {
-                    //string newFileName = fileInfo.Name + fileExt;
-                    string newFileName = Guid.NewGuid().ToString() + fileExt;
-                    ////最后保存文件路径
-                    //string saveUrl = Path.Combine(root, newFileName);
-
-                    //fileInfo.MoveTo(saveUrl);
-
-                    return FileSaveConfig.SaveFileProc(root, newFileName, fileInfo);
-                }
-            }
-        }
-
         /// <summary>
         /// 执行保存文件
         /// </summary>
