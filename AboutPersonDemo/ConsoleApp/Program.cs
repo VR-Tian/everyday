@@ -15,9 +15,11 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-
-            ToastBread(22);
-            FryEggs(11);
+            int numb1 = 55;
+            int numm2 = 30;
+            decimal menoy = 480.0000m;
+            var val = (numb1 / numm2) * menoy;
+            Console.WriteLine(val);
             Console.ReadKey();
 
             //同步
@@ -257,5 +259,48 @@ namespace ConsoleApp
             var path2 = Path.GetExtension(path);
             return path1;
         }
+    }
+
+    public class ExportHelper<T> where T: IMyExport
+    {
+        public static void ExportData(T Model)
+        {
+            var item = Model.myExportMain.Create_Time;
+        }
+    }
+
+    public interface IMyExport
+    {
+        IMyExportMain myExportMain { get; set; }
+        List<IMyExportDetail> myExportDetail { get; set; }
+    }
+
+    public interface IMyExportMain
+    {
+        DateTime Create_Time { get; set; }
+    }
+
+    public interface IMyExportDetail
+    {
+        int Age { get; set; }
+    }
+
+    public class MainInfo : IMyExportMain
+    {
+        public DateTime Create_Time { get; set; }
+    }
+
+    public class DetailExport : IMyExportDetail
+    {
+        public int Age { get; set; }
+    }
+
+    /// <summary>
+    /// 实现导出类型
+    /// </summary>
+    public class TestModel : IMyExport
+    {
+        public IMyExportMain myExportMain { get; set; }
+        public List<IMyExportDetail> myExportDetail { get; set; }
     }
 }

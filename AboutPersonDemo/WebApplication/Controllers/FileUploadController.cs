@@ -20,6 +20,7 @@ namespace WebApplication.Controllers
     {
         public async Task<HttpResponseMessage> PostFormData()
         {
+            var httpResponseMessageOfThis = Request.CreateResponse(HttpStatusCode.HttpVersionNotSupported);
             //是否包含文件类型请求
             if (!Request.Content.IsMimeMultipartContent())
             {
@@ -31,8 +32,8 @@ namespace WebApplication.Controllers
                 //return httpResponseMessage;
 
                 //异步情况下，为当前响应请求创建响应内容
-                var httpResponseMessageOfThis = Request.CreateResponse(HttpStatusCode.HttpVersionNotSupported);
-                httpResponseMessageOfThis.Content = new StringContent("{\"msg\":\"请检查文件是否上传\"}");
+
+                httpResponseMessageOfThis.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(new { Message = "请检查文件是否上传" }));
                 httpResponseMessageOfThis.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
                 return httpResponseMessageOfThis;
             }
@@ -42,17 +43,17 @@ namespace WebApplication.Controllers
 
             int UploadImgMaxByte = 0;
             string UploadImgType = !string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("UploadImgType")) ?
-                ConfigurationManager.AppSettings.Get("UploadImgType") : "jpg,png,gif";
+                ConfigurationManager.AppSettings.Get("UploadImgType") : "jpg,png,gif,xlsx";
 
             //string UploadSaveImgPath = !string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings.Get("UploadSaveImgPath")) ?
             //    ConfigurationManager.AppSettings.Get("UploadSaveImgPath") : "/Resource/Images";
 
             int.TryParse(ConfigurationManager.AppSettings.Get("UploadImgMaxByte"), out  UploadImgMaxByte);
-            UploadImgMaxByte = UploadImgMaxByte > 0 ? UploadImgMaxByte : 5242880;
+            UploadImgMaxByte = UploadImgMaxByte > 0 ? UploadImgMaxByte : 8192;
 
             try
             {
-                // Read the form data.(此步骤本地已接受对应上传文件，但此时的文件已文件流形式存在)
+                // Read the form data.(此步骤本地已接受对应上传文件，但此时的文件以文件流形式存在)
                 await Request.Content.ReadAsMultipartAsync(provider);
 
                 // This illustrates how to get the file names.
@@ -69,6 +70,12 @@ namespace WebApplication.Controllers
                     {
                         fileInfo.Delete();
                         return Request.CreateResponse(HttpStatusCode.UnsupportedMediaType, UploadImgType);
+                    }
+                    if(fileInfo.Length> UploadImgMaxByte)
+                    {
+                        httpResponseMessageOfThis.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(new { Message = string.Format("文件大小超过上限{0}KB",  (UploadImgMaxByte / 1024m)) }));
+                        httpResponseMessageOfThis.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                        return httpResponseMessageOfThis;
                     }
                     else
                     {
