@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FileSaveConfig.cs" />
+    <Compile Include="App_Start\MySQLHelper.cs" />
     <Compile Include="App_Start\RequestAuthorizeAttribute.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />

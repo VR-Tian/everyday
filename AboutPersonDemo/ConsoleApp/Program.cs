@@ -15,108 +15,44 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            int numb1 = 55;
-            int numm2 = 30;
-            decimal menoy = 480.0000m;
-            var val = (numb1 / numm2) * menoy;
-            Console.WriteLine(val);
-            Console.ReadKey();
+            PetOwner[] petOwners =
+        { new PetOwner { Name="Higa",
+              Pets = new List<string>{ "Scruffy", "Sam" } },
+          new PetOwner { Name="Ashkenazi",
+              Pets = new List<string>{ "Walker", "Sugar" } },
+          new PetOwner { Name="Price",
+              Pets = new List<string>{ "Scratches", "Diesel" } },
+          new PetOwner { Name="Hines",
+              Pets = new List<string>{ "Dusty" } } };
 
-            //同步
+            // Project the pet owner's name and the pet's name.
+            var query =
+                petOwners
+                .SelectMany(petOwner => petOwner.Pets, (petOwner, petName) => new { petOwner, petName })
+                .Where(ownerAndPet => ownerAndPet.petName.StartsWith("S"))
+                .Select(ownerAndPet =>
+                        new
+                        {
+                            Owner = ownerAndPet.petOwner.Name,
+                            Pet = ownerAndPet.petName
+                        }
+                );
+            foreach (var obj in query)
+            {
+                Console.WriteLine(obj);
+            }
+
+            Console.ReadKey();
             #region 20190614 同步和异步的学习
-            //int i = 1;
-            //while (true)
-            //{
-            //    FryEggs(2);
-            //    Console.WriteLine("第" + i + "位的顾客鸡蛋正在准备");
-            //    ToastBread(2);
-            //    Console.WriteLine("第" + i + "位的顾客面包正在准备");
-            //    FryBacon(3);
-            //    Console.WriteLine("第" + i + "位的顾客培根正在准备");
-            //    i++;
-            //    Console.ReadLine();
-            //}
 
-            Console.WriteLine("开始获取资源");
-            System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            var request = WebRequest.Create("http://github.com/");
-            //request.GetResponse();//发送请求   
 
-            #region 异步
-            request.BeginGetResponse(new AsyncCallback(t =>
-              {
-                  request.EndGetResponse(t);//发送请求
-              }), null);
             #endregion
-            Console.WriteLine("不等待");
+
+            #region 委托
+            //将函数进行参数化，把函数动态进行调用
+            var toastBreadToA = new Action<int>(ToastBread);
+            toastBreadToA.Invoke(1);
             Console.ReadKey();
-            #endregion
-
-        }
-
-
-        public static IEnumerable<int> PrimesInRange_Sequential(int start, int end)
-        {
-            List<int> primes = new List<int>();
-            for (int i = start; i < end; i++)
-            {
-                if (IsPrime(i)) primes.Add(i);
-            }
-            return primes;
-        }
-        public static bool IsPrime(int number)
-        {
-            if (number == 2)
-                return true;
-            for (int divisor = 2; divisor < number; divisor ++)
-            {
-                if (number % divisor == 0) return false;
-            }
-            return true;
-        }
-
-        public class MyWebRequest : IAsyncResult
-        {
-            public object AsyncState
-            {
-                get { throw new NotImplementedException(); }
-            }
-
-            public WaitHandle AsyncWaitHandle
-            {
-                get { throw new NotImplementedException(); }
-            }
-
-            public bool CompletedSynchronously
-            {
-                get { throw new NotImplementedException(); }
-            }
-
-            public bool IsCompleted
-            {
-                get { throw new NotImplementedException(); }
-            }
-        }
-
-        static async Task DoBreakfast()
-        {
-
-            #region 20190613 正则
-            //var value = Regex.Match("我123我11", "\\d+(\\.\\d+){0,1}").Value;
-            //Console.ReadKey();
-
-
-            #endregion
-
-            #region int?
-            //int? number = null;
-            //var temp1 = number.Value;
-            //if (number > 1)
-            //{
-            //    Console.WriteLine(1);
-            //}
-            //Console.ReadKey();
-
             #endregion
 
             #region 20190320 关于基本类型学习
@@ -218,6 +154,60 @@ namespace ConsoleApp
 
         }
 
+        //public static async Task<string> ExecuteProcAsync()
+        //{
+        //    await Task.Run(() =>
+        //     {
+        //         Console.WriteLine("开始执行第一个事件");
+        //         Thread.Sleep(1000);
+        //         Console.WriteLine("结束执行第一个事件");
+        //         return DateTime.Now.ToString();
+        //     });
+        //}
+
+        public static IEnumerable<int> PrimesInRange_Sequential(int start, int end)
+        {
+            List<int> primes = new List<int>();
+            for (int i = start; i < end; i++)
+            {
+                if (IsPrime(i)) primes.Add(i);
+            }
+            return primes;
+        }
+        public static bool IsPrime(int number)
+        {
+            if (number == 2)
+                return true;
+            for (int divisor = 2; divisor < number; divisor++)
+            {
+                if (number % divisor == 0) return false;
+            }
+            return true;
+        }
+
+        public class MyWebRequest : IAsyncResult
+        {
+            public object AsyncState
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public WaitHandle AsyncWaitHandle
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public bool CompletedSynchronously
+            {
+                get { throw new NotImplementedException(); }
+            }
+
+            public bool IsCompleted
+            {
+                get { throw new NotImplementedException(); }
+            }
+        }
+
         private static void ToastBread(int v)
         {
             Task.Run(() =>
@@ -261,7 +251,13 @@ namespace ConsoleApp
         }
     }
 
-    public class ExportHelper<T> where T: IMyExport
+    class PetOwner
+    {
+        public string Name { get; set; }
+        public List<string> Pets { get; set; }
+    }
+
+    public class ExportHelper<T> where T : IMyExport
     {
         public static void ExportData(T Model)
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Routing;
 
 namespace WebApplication
 {
@@ -19,6 +20,9 @@ namespace WebApplication
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            //路由规则优先匹配第一条配置，以下配置不会被捕获
+            config.Routes.Add("DefaultApiOfParamName", new HttpRoute("api/{controller}/{username}", new HttpRouteValueDictionary(new { username = RouteParameter.Optional })));
         }
     }
 }
