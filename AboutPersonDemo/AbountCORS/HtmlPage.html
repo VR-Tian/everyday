@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-2.2.4.js"></script>
+    <script type="text/javascript">
+        $.ajax({
+            url: "http://localhost:38649/api/TestRoute/123",
+            type: "Get",
+        }).done(function () {
+            alert("success");
+        }).fail(function () {
+            alert("fail");
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

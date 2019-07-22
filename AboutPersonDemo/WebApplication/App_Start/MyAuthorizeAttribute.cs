@@ -8,7 +8,10 @@ using System.Web.Security;
 
 namespace WebApplication.App_Start
 {
-    public class RequestAuthorizeAttribute:AuthorizeAttribute
+    /// <summary>
+    /// 基于框架的当前用户和用户的角色的验证授权
+    /// </summary>
+    public class MyAuthorizeAttribute:AuthorizeAttribute
     {
         private static string UserName = "admin";
         private static string Password = "admin";
