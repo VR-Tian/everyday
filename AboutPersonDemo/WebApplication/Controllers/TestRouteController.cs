@@ -12,6 +12,9 @@ using WebApplication.App_Start;
 /// </summary>
 namespace WebApplication.Controllers
 {
+    [MyAuthorizationFilter]
+    [MyAuthorize]
+    [MyActionFilter]
     public class TestRouteController : ApiController
     {
         #region RESETful API
@@ -22,6 +25,8 @@ namespace WebApplication.Controllers
         //(2) 根据路由规则，在同一个请求类型，要么是匹配无参数的接口，要么匹配是带参数的接口
 
         //疑惑：要是参数不是基本类型或多个入参，是否违背了RESETful的遵循规则；
+
+        //不适用于RESTFul风格，比如登录功能
         
         #endregion
 
