@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-2.2.1.js"></script>
+    <script type="text/javascript">
+        $.ajax({
+            url: "api/TestRoute",
+            type: "POST",
+            data: {
+                //默认情况下：application/x-www-form-urlencoded
+                ID: 1,
+                UserName: "Ajax"
+            },
+            //contentType: "application/json",
+            //data: JSON.stringify({ ID: 123, UserName: "ajax" }),
+        }).done(function () {
+            alert("success");
+        }).fail(function () {
+            alert("fail");
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>
