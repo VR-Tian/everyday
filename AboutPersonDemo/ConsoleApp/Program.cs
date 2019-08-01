@@ -15,68 +15,28 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            PetOwner[] petOwners =
-        { new PetOwner { Name="Higa",
-              Pets = new List<string>{ "Scruffy", "Sam" } },
-          new PetOwner { Name="Ashkenazi",
-              Pets = new List<string>{ "Walker", "Sugar" } },
-          new PetOwner { Name="Price",
-              Pets = new List<string>{ "Scratches", "Diesel" } },
-          new PetOwner { Name="Hines",
-              Pets = new List<string>{ "Dusty" } } };
-
-            // Project the pet owner's name and the pet's name.
-            var query =
-                petOwners
-                .SelectMany(petOwner => petOwner.Pets, (petOwner, petName) => new { petOwner, petName })
-                .Where(ownerAndPet => ownerAndPet.petName.StartsWith("S"))
-                .Select(ownerAndPet =>
-                        new
-                        {
-                            Owner = ownerAndPet.petOwner.Name,
-                            Pet = ownerAndPet.petName
-                        }
-                );
-            foreach (var obj in query)
-            {
-                Console.WriteLine(obj);
-            }
-
-            Console.ReadKey();
-            #region 20190614 同步和异步的学习
-
-
-            #endregion
-
-            #region 委托
-            //将函数进行参数化，把函数动态进行调用
-            var toastBreadToA = new Action<int>(ToastBread);
-            toastBreadToA.Invoke(1);
-            Console.ReadKey();
-            #endregion
-
-            #region 20190320 关于基本类型学习
-            //字节byte、比特(位)bit  = >1byte=8bit 
-            //char[] chars = new char[4];
-            //chars[0] = 'X';        // Character literal
-            //chars[1] = '\x0058';   // Hexadecimal
-            //chars[2] = (char)88;   // Cast from integral type
-            //chars[3] = '\u0058';   // Unicode
-            //foreach (char c in chars)
-            //{
-            //    Console.Write(c + " ");
-            //}
-
-
-            //string test = "总所周知 A B C";
-            //var strToBytes = System.Text.Encoding.Unicode.GetBytes(test);
-            //var bytesToStr = System.Text.Encoding.Unicode.GetString(strToBytes);
-            //Console.WriteLine(bytesToStr);
-
-            //Console.ReadKey();
-            #endregion
 
             #region 20190317-19-40 socket
+
+            #region UDP Client
+            IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
+            IPEndPoint endPoint = new IPEndPoint(hostEntry.AddressList[3], 11000);
+
+            Socket s = new Socket(endPoint.Address.AddressFamily,
+                SocketType.Dgram,
+                ProtocolType.Udp);
+
+            byte[] message = Encoding.ASCII.GetBytes("This is a test");
+            Console.WriteLine("Sending data.");
+            // This call blocks. 
+            s.SendTo(message, SocketFlags.None, endPoint);
+            s.Close();
+            Console.ReadKey();
+            return;
+            #endregion
+
+
+
 
             //了解网络传输过程中涉及到的理论知识，以及.NET网络编程的使用方式
             //了解套接字与具体Http、Utp协议的关系与区别
@@ -144,6 +104,39 @@ namespace ConsoleApp
             }
 
 
+            #endregion
+
+            #region 20190614 同步和异步的学习
+
+
+            #endregion
+
+            #region 委托
+            //将函数进行参数化，把函数动态进行调用
+            var toastBreadToA = new Action<int>(ToastBread);
+            toastBreadToA.Invoke(1);
+            Console.ReadKey();
+            #endregion
+
+            #region 20190320 关于基本类型学习
+            //字节byte、比特(位)bit  = >1byte=8bit 
+            //char[] chars = new char[4];
+            //chars[0] = 'X';        // Character literal
+            //chars[1] = '\x0058';   // Hexadecimal
+            //chars[2] = (char)88;   // Cast from integral type
+            //chars[3] = '\u0058';   // Unicode
+            //foreach (char c in chars)
+            //{
+            //    Console.Write(c + " ");
+            //}
+
+
+            //string test = "总所周知 A B C";
+            //var strToBytes = System.Text.Encoding.Unicode.GetBytes(test);
+            //var bytesToStr = System.Text.Encoding.Unicode.GetString(strToBytes);
+            //Console.WriteLine(bytesToStr);
+
+            //Console.ReadKey();
             #endregion
 
             #region 长度问题

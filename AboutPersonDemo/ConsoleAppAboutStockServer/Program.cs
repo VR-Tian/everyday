@@ -20,6 +20,77 @@ namespace ConsoleAppAboutStockServer
 
         public static void StartListening()
         {
+            #region UDP Server
+
+            //传送文件：
+            //0套接字监听
+            //1获取文件的字节数据
+            //2套接字发生
+
+            string pathSource = @"C:\Users\37770\Desktop\考试流程.txt";
+            string pathNew = @"C:\Users\37770\Desktop\自考\newfile.txt";
+
+            string endPointOfIP = null;
+            //if (string.IsNullOrEmpty(endPointOfIP))
+            //{
+            //    endPointOfIP = "172.21.197.17";
+            //}
+            //IPAddress ipAddress1 = IPAddress.Parse(endPointOfIP);
+
+            IPHostEntry ipHostInfo1 = Dns.GetHostEntry(Dns.GetHostName());
+            IPAddress ipAddress1 = ipHostInfo1.AddressList[3]; //
+            IPEndPoint localEndPoint1 = new IPEndPoint(ipAddress1, 11000);
+            using (Socket serverSk = new Socket(ipAddress1.AddressFamily,
+                    SocketType.Dgram, ProtocolType.Udp))
+            {
+
+                serverSk.Bind(localEndPoint1);
+                //serverSk.Listen(10);
+
+                byte[] msg = new Byte[256];
+                Console.WriteLine("Waiting to receive datagrams from client...");
+                // This call blocks. 
+                EndPoint senderRemote = (EndPoint)localEndPoint1;
+                serverSk.ReceiveFrom(msg, SocketFlags.None, ref senderRemote);
+
+                Console.WriteLine(msg.Length);
+                Console.ReadKey();
+                return;
+                using (FileStream fsSource = new FileStream(pathSource, FileMode.Open, FileAccess.Read))
+                {
+                    byte[] buffer = new byte[fsSource.Length];
+                    int numBytesToRead = (int)fsSource.Length;
+                    int numBytesRead = 0;
+                    while (numBytesToRead > 0)
+                    {
+                        // Read may return anything from 0 to numBytesToRead.
+                        int n = fsSource.Read(buffer, numBytesRead, numBytesToRead);
+
+                        // Break when the end of the file is reached.
+                        if (n == 0)
+                        {
+                            //numBytesToRead = 0;
+                            break;
+                        }
+
+                        numBytesRead += n;
+                        numBytesToRead -= n;
+                    }
+
+                    // Write the byte array to the other FileStream.
+                    //using (FileStream fsNew = new FileStream(pathNew,
+                    //    FileMode.Create, FileAccess.Write))
+                    //{
+                    //    fsNew.Write(buffer, 0, buffer.Length);
+                    //}
+                }
+
+            }
+           
+            #endregion
+
+
+            #region MSDN SocketServer Deom
             // Data buffer for incoming data.  
             byte[] bytes = new Byte[1024];
 
@@ -82,7 +153,8 @@ namespace ConsoleAppAboutStockServer
             }
 
             Console.WriteLine("\nPress ENTER to continue...");
-            Console.Read();
+            Console.Read(); 
+            #endregion
 
         }
     }
