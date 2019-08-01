@@ -17,20 +17,55 @@ namespace ConsoleApp
         {
 
             #region 20190317-19-40 socket
+            string pathSource = @"C:\Users\37770\Desktop\考试流程.txt";
 
+
+            SendFileSize(pathSource);
+            Console.ReadKey();
             #region UDP Client
             IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
-            IPEndPoint endPoint = new IPEndPoint(hostEntry.AddressList[3], 11000);
+            IPEndPoint endPoint = new IPEndPoint(hostEntry.AddressList[3], 11001);
 
             Socket s = new Socket(endPoint.Address.AddressFamily,
                 SocketType.Dgram,
                 ProtocolType.Udp);
 
             byte[] message = Encoding.ASCII.GetBytes("This is a test");
-            Console.WriteLine("Sending data.");
+            //Console.WriteLine("Sending data.");
             // This call blocks. 
-            s.SendTo(message, SocketFlags.None, endPoint);
-            s.Close();
+            using (FileStream fsSource = new FileStream(pathSource, FileMode.Open, FileAccess.Read))
+            {
+                byte[] buffer = new byte[fsSource.Length];
+                int numBytesToRead = (int)fsSource.Length;
+                int numBytesRead = 0;
+                while (numBytesToRead > 0)
+                {
+                    // Read may return anything from 0 to numBytesToRead.
+                    int n = fsSource.Read(buffer, numBytesRead, numBytesToRead);
+
+                    // Break when the end of the file is reached.
+                    if (n == 0)
+                    {
+                        //numBytesToRead = 0;
+                        break;
+                    }
+
+                    numBytesRead += n;
+                    numBytesToRead -= n;
+                }
+
+                // Write the byte array to the other FileStream.
+                //using (FileStream fsNew = new FileStream(pathNew,
+                //    FileMode.Create, FileAccess.Write))
+                //{
+                //    fsNew.Write(buffer, 0, buffer.Length);
+                //}
+                s.SendTo(buffer, SocketFlags.None, endPoint);
+                s.Close();
+            }
+
+
+          
             Console.ReadKey();
             return;
             #endregion
@@ -145,6 +180,23 @@ namespace ConsoleApp
             Console.ReadKey();
             #endregion
 
+        }
+
+        public static void SendFileSize(string filename)
+        {
+            using (var FilleStream= File.OpenRead(filename))
+            {
+                int numBytesToRead = (int)FilleStream.Length;
+                IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
+                IPEndPoint endPoint = new IPEndPoint(hostEntry.AddressList[3], 11000);
+
+                using (Socket ssSocket = new Socket(endPoint.Address.AddressFamily,
+                    SocketType.Dgram,
+                    ProtocolType.Udp))
+                {
+                    ssSocket.SendTo(System.Text.Encoding.UTF8.GetBytes(numBytesToRead.ToString()), SocketFlags.None, endPoint);
+                }
+            }
         }
 
         //public static async Task<string> ExecuteProcAsync()

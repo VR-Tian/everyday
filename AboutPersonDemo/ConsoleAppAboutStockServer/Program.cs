@@ -13,9 +13,28 @@ namespace ConsoleAppAboutStockServer
     {
         // Incoming data from the client.  
         public static string data = null;
+        static byte[] msg = null;
         static void Main(string[] args)
         {
+            SetBufferSize();
+            Console.ReadKey();
             StartListening();
+        }
+
+        private static void SetBufferSize()
+        {
+             IPHostEntry ipHostInfo1 = Dns.GetHostEntry(Dns.GetHostName());
+            IPAddress ipAddress1 = ipHostInfo1.AddressList[3]; //
+            IPEndPoint localEndPoint1 = new IPEndPoint(ipAddress1, 11000);
+            using (Socket serverSk = new Socket(ipAddress1.AddressFamily,
+                    SocketType.Dgram, ProtocolType.Udp))
+            {
+                byte[] msgLength = new byte[255]; 
+                serverSk.Bind(localEndPoint1);
+                EndPoint senderRemote = (EndPoint)localEndPoint1;
+                serverSk.ReceiveFrom(msgLength, SocketFlags.None, ref senderRemote);
+                msg = new byte[Convert.ToInt32(System.Text.Encoding.UTF8.GetString(msgLength))];
+            }
         }
 
         public static void StartListening()
@@ -39,7 +58,7 @@ namespace ConsoleAppAboutStockServer
 
             IPHostEntry ipHostInfo1 = Dns.GetHostEntry(Dns.GetHostName());
             IPAddress ipAddress1 = ipHostInfo1.AddressList[3]; //
-            IPEndPoint localEndPoint1 = new IPEndPoint(ipAddress1, 11000);
+            IPEndPoint localEndPoint1 = new IPEndPoint(ipAddress1, 11001);
             using (Socket serverSk = new Socket(ipAddress1.AddressFamily,
                     SocketType.Dgram, ProtocolType.Udp))
             {
@@ -47,13 +66,16 @@ namespace ConsoleAppAboutStockServer
                 serverSk.Bind(localEndPoint1);
                 //serverSk.Listen(10);
 
-                byte[] msg = new Byte[256];
                 Console.WriteLine("Waiting to receive datagrams from client...");
                 // This call blocks. 
                 EndPoint senderRemote = (EndPoint)localEndPoint1;
                 serverSk.ReceiveFrom(msg, SocketFlags.None, ref senderRemote);
 
-                Console.WriteLine(msg.Length);
+                //Console.WriteLine(System.Text.Encoding.UTF8.GetString(msg));
+                using (StreamWriter streamW = new StreamWriter(pathNew))
+                {
+                    streamW.WriteLine(System.Text.Encoding.Default.GetChars(msg));
+                }
                 Console.ReadKey();
                 return;
                 using (FileStream fsSource = new FileStream(pathSource, FileMode.Open, FileAccess.Read))
