@@ -13,132 +13,21 @@ namespace ConsoleApp
 {
     class Program
     {
+        static string ReceiveIP = "172.21.197.23";
+        static string SendIP = "10.1.1.221";
+
         static void Main(string[] args)
         {
 
             #region 20190317-19-40 socket
-            string pathSource = @"C:\Users\37770\Desktop\考试流程.txt";
+            string pathSource = @"C:\123.txt";
 
 
             SendFileSize(pathSource);
             Console.ReadKey();
-            #region UDP Client
-            IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
-            IPEndPoint endPoint = new IPEndPoint(hostEntry.AddressList[3], 11001);
-
-            Socket s = new Socket(endPoint.Address.AddressFamily,
-                SocketType.Dgram,
-                ProtocolType.Udp);
-
-            byte[] message = Encoding.ASCII.GetBytes("This is a test");
-            //Console.WriteLine("Sending data.");
-            // This call blocks. 
-            using (FileStream fsSource = new FileStream(pathSource, FileMode.Open, FileAccess.Read))
-            {
-                byte[] buffer = new byte[fsSource.Length];
-                int numBytesToRead = (int)fsSource.Length;
-                int numBytesRead = 0;
-                while (numBytesToRead > 0)
-                {
-                    // Read may return anything from 0 to numBytesToRead.
-                    int n = fsSource.Read(buffer, numBytesRead, numBytesToRead);
-
-                    // Break when the end of the file is reached.
-                    if (n == 0)
-                    {
-                        //numBytesToRead = 0;
-                        break;
-                    }
-
-                    numBytesRead += n;
-                    numBytesToRead -= n;
-                }
-
-                // Write the byte array to the other FileStream.
-                //using (FileStream fsNew = new FileStream(pathNew,
-                //    FileMode.Create, FileAccess.Write))
-                //{
-                //    fsNew.Write(buffer, 0, buffer.Length);
-                //}
-                s.SendTo(buffer, SocketFlags.None, endPoint);
-                s.Close();
-            }
-
-
-          
+            SendFileInfo(pathSource);
             Console.ReadKey();
             return;
-            #endregion
-
-
-
-
-            //了解网络传输过程中涉及到的理论知识，以及.NET网络编程的使用方式
-            //了解套接字与具体Http、Utp协议的关系与区别
-            // Data buffer for incoming data.  
-            byte[] bytes = null;
-
-            // Connect to a remote device.  
-            try
-            {
-                // Establish the remote endpoint for the socket.  
-                // This example uses port 11000 on the local computer.  
-                IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-                IPAddress ipAddress = ipHostInfo.AddressList[0];
-                IPEndPoint remoteEP = new IPEndPoint(ipAddress, 11000);
-
-                // Create a TCP/IP  socket.  
-                Socket sender = new Socket(ipAddress.AddressFamily,
-                    SocketType.Stream, ProtocolType.Tcp);
-
-                // Connect the socket to the remote endpoint. Catch any errors.  
-                try
-                {
-                    sender.Connect(remoteEP);
-
-                    Console.WriteLine("Socket connected to {0}",
-                        sender.RemoteEndPoint.ToString());
-
-                    // Encode the data string into a byte array.
-                    //较大字节流
-                    //var bufferOfreadfile = File.ReadAllBytes(@"C:\Program Files (x86)\VR_Work\CentOS\CentOS-7-x86_64-Minimal-1810.iso");
-                    //文字字节流
-                    byte[] msg = Encoding.UTF8.GetBytes("我来了");
-
-                    // Send the data through the socket.  
-                    int bytesSent = sender.Send(msg);
-                    bytes = new byte[sender.ReceiveBufferSize];
-                    // Receive the response from the remote device.  
-                    int bytesRec = sender.Receive(bytes);
-                    Console.WriteLine("Echoed test = {0}",
-                        Encoding.UTF8.GetString(bytes, 0, bytesRec));
-
-                    // Release the socket.  
-                    sender.Shutdown(SocketShutdown.Both);
-                    sender.Close();
-
-
-                }
-                catch (ArgumentNullException ane)
-                {
-                    Console.WriteLine("ArgumentNullException : {0}", ane.ToString());
-                }
-                catch (SocketException se)
-                {
-                    Console.WriteLine("SocketException : {0}", se.ToString());
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Unexpected exception : {0}", e.ToString());
-                }
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-
-
             #endregion
 
             #region 20190614 同步和异步的学习
@@ -182,19 +71,51 @@ namespace ConsoleApp
 
         }
 
+        private static void SendFileInfo(string pathSource)
+        {
+            #region UDP Client
+
+            IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
+            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(SendIP), 11001);
+
+            Socket s = new Socket(endPoint.Address.AddressFamily, SocketType.Dgram, ProtocolType.Udp);
+
+            using (FileStream fsSource = new FileStream(pathSource, FileMode.Open, FileAccess.Read))
+            {
+                byte[] buffer = new byte[fsSource.Length];
+                int numBytesToRead = (int)fsSource.Length;
+                int numBytesRead = 0;
+                while (numBytesToRead > 0)
+                {
+                    int n = fsSource.Read(buffer, numBytesRead, numBytesToRead);
+                    if (n == 0)
+                    {
+                        break;
+                    }
+                    numBytesRead += n;
+                    numBytesToRead -= n;
+                }
+                s.SendTo(buffer, SocketFlags.None, new IPEndPoint(IPAddress.Parse(ReceiveIP), 11001));
+                s.Close();
+                Console.WriteLine("to send fileInfo is success");
+            }
+            #endregion
+        }
+
         public static void SendFileSize(string filename)
         {
-            using (var FilleStream= File.OpenRead(filename))
+            using (var FilleStream = File.OpenRead(filename))
             {
                 int numBytesToRead = (int)FilleStream.Length;
-                IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
-                IPEndPoint endPoint = new IPEndPoint(hostEntry.AddressList[3], 11000);
+                //IPHostEntry hostEntry = Dns.GetHostEntry(Dns.GetHostName());
+                IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(SendIP), 11000);
 
                 using (Socket ssSocket = new Socket(endPoint.Address.AddressFamily,
                     SocketType.Dgram,
                     ProtocolType.Udp))
                 {
-                    ssSocket.SendTo(System.Text.Encoding.UTF8.GetBytes(numBytesToRead.ToString()), SocketFlags.None, endPoint);
+                    ssSocket.SendTo(System.Text.Encoding.UTF8.GetBytes(numBytesToRead.ToString()), SocketFlags.None, new IPEndPoint(IPAddress.Parse(ReceiveIP), 11000));
+                    Console.WriteLine("to send fileSize is success");
                 }
             }
         }
