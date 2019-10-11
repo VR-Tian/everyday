@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Respositories;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,7 +19,9 @@ namespace ConsoleApp
 
         static void Main(string[] args)
         {
-
+            MY7WRespository mY7WRespository = new MY7WRespository();
+            mY7WRespository.AddMY7W();
+            Console.ReadKey();
             #region 20190317-19-40 socket
             string pathSource = @"C:\123.txt";
 
