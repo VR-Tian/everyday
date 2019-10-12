@@ -1,4 +1,5 @@
 ﻿using Respositories;
+using Respositories.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,7 +20,7 @@ namespace ConsoleApp
 
         static void Main(string[] args)
         {
-            MY7WRespository mY7WRespository = new MY7WRespository();
+            MY7WRepository mY7WRespository = new MY7WRepository(new EntityFrameworkRepositoryContext());
             mY7WRespository.AddMY7W();
             Console.ReadKey();
             #region 20190317-19-40 socket

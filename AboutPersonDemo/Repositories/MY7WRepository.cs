@@ -15,7 +15,7 @@ namespace Respositories
         }
         public void AddMY7W()
         {
-            My7W mY7W = new My7W() { Id = 1, Address = "马路", Name = "里斯" };
+            My7W mY7W = new My7W() {  Address = "马路", Name = "里斯" };
             DoAdd(mY7W);
         }
     }

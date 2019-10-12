@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Respositories", "Repositori
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{4D40E56D-DE7E-4AEE-A6C3-8E11F7487199}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RespositoriesTest", "RespositoriesTest\RespositoriesTest.csproj", "{3B1A0A17-1503-40B9-8C9D-C7A190D5E613}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RespositoriesTest", "RespositoriesTest\RespositoriesTest.csproj", "{59B411B6-E688-4AAA-B940-643B57027236}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,10 +65,10 @@ Global
 		{4D40E56D-DE7E-4AEE-A6C3-8E11F7487199}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D40E56D-DE7E-4AEE-A6C3-8E11F7487199}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D40E56D-DE7E-4AEE-A6C3-8E11F7487199}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3B1A0A17-1503-40B9-8C9D-C7A190D5E613}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3B1A0A17-1503-40B9-8C9D-C7A190D5E613}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3B1A0A17-1503-40B9-8C9D-C7A190D5E613}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3B1A0A17-1503-40B9-8C9D-C7A190D5E613}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59B411B6-E688-4AAA-B940-643B57027236}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B411B6-E688-4AAA-B940-643B57027236}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B411B6-E688-4AAA-B940-643B57027236}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B411B6-E688-4AAA-B940-643B57027236}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

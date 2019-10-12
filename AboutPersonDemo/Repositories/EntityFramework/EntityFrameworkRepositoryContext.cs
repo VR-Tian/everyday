@@ -17,6 +17,7 @@
         public void RegisterNew<TAggregateRoot>(TAggregateRoot obj) where TAggregateRoot: class
         {
             localCtx.Value.Entry<TAggregateRoot>(obj).State = System.Data.Entity.EntityState.Added;
+            localCtx.Value.SaveChanges();
         }
     }
 }
