@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Domain.Specifications;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,7 +14,7 @@ namespace Respositories
     /// </summary>
     public abstract class BaseRepository<TAggregateRoot> : IBaseRepository<TAggregateRoot>
     {
-        #region MyRegion
+        #region Protected Methods
 
         /// <summary>
         /// Adds an aggregate root to the repository.
@@ -23,9 +25,16 @@ namespace Respositories
         /// </remarks>
         protected abstract void DoAdd(TAggregateRoot aggregateRoot);
 
+        protected virtual IEnumerable<TAggregateRoot> DoFindAll(ISpecification<TAggregateRoot> specification)
+        {
+            return DoFindAll(specification, null, SortOrder.Unspecified);
+        }
+
+        protected abstract IEnumerable<TAggregateRoot> DoFindAll(ISpecification<TAggregateRoot> specification, Expression<Func<TAggregateRoot, dynamic>> sortPredicate, SortOrder sortOrder);
+
         #endregion
 
-        #region IRepository<TAggregateRoot> Members
+        #region IBaseRepository<TAggregateRoot> Members
 
         public void Add(TAggregateRoot aggregateRoot)
         {
@@ -39,7 +48,7 @@ namespace Respositories
 
         public TAggregateRoot Find(ISpecification<TAggregateRoot> specification)
         {
-            throw new NotImplementedException();
+            return DoFindAll(specification).FirstOrDefault();
         }
 
         public TAggregateRoot Find(ISpecification<TAggregateRoot> specification, params System.Linq.Expressions.Expression<Func<TAggregateRoot, dynamic>>[] eagerLoadingProperties)

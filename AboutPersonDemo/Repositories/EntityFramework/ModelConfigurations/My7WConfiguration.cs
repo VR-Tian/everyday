@@ -15,7 +15,7 @@ namespace Respositories.EntityFramework.ModelConfigurations
             HasKey(c => c.Id);
             Property(c => c.Id)
                 .IsRequired()
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(c => c.Name)
                 .IsRequired()
                 .HasMaxLength(50);

@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Respositories
+namespace Domain.Specifications
 {
     public interface ISpecification<T>
     {

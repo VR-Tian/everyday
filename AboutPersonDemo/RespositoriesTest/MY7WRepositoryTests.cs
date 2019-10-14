@@ -15,7 +15,7 @@ namespace Respositories.Tests
         public void AddMY7WTest()
         {
             MY7WRepository mY7WRepository = new MY7WRepository(new EntityFramework.EntityFrameworkRepositoryContext());
-            mY7WRepository.AddMY7W();
+            mY7WRepository.AddMY7W(new EntityFramework.My7W() { Address = "马路" + DateTime.Now.Second, Name="Tick" });
             Assert.IsTrue(true);
         }
     }
