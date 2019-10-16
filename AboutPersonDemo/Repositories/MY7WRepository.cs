@@ -20,7 +20,7 @@ namespace Respositories
         public void AddMY7W(My7W my7W)
         {
             Add(my7W);
-            DoFindAll(new );
+            //DoFindAll(new );
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Respositories;
+﻿using ConsoleApp.WCFService;
+using Respositories;
 using Respositories.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -20,8 +21,8 @@ namespace ConsoleApp
 
         static void Main(string[] args)
         {
-            MY7WRepository mY7WRespository = new MY7WRepository(new EntityFrameworkRepositoryContext());
-            mY7WRespository.AddMY7W();
+            Class1 clientService = new Class1();
+            clientService.TestService();
             Console.ReadKey();
             #region 20190317-19-40 socket
             string pathSource = @"C:\123.txt";
