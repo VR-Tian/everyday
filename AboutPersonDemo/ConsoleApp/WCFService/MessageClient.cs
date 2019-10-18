@@ -15,14 +15,44 @@ namespace ConsoleApp.WCFService
         /// </summary>
         private InstanceContext instanceContext;
         /// <summary>
-        /// 消息上下文
+        /// 服务消息上下文
         /// </summary>
         private CalculatorDuplexClient client;
+        /// <summary>
+        /// 服务器回调上下文
+        /// </summary>
+        private CallbackHandler callbackHandler;
+
+
         public MessageClient()
         {
-            instanceContext = new InstanceContext(new CallbackHandler());
+            callbackHandler = new CallbackHandler();
+            instanceContext = new InstanceContext(callbackHandler);
             client = new CalculatorDuplexClient(instanceContext);
+            client.OnLine();
         }
+
+        public MessageClient(Action<string> OnDowLoadMsgAction)
+        {
+            callbackHandler = new CallbackHandler(OnDowLoadMsgAction);
+            instanceContext = new InstanceContext(callbackHandler);
+            client = new CalculatorDuplexClient(instanceContext);
+            client.OnLine();
+        }
+
+        /// <summary>
+        /// 拉取消息
+        /// </summary>
+        public string DowLoadMsg()
+        {
+            string tempStr = string.Empty;
+            callbackHandler.OnDownloadMsgReceived = (msg) =>
+            {
+                tempStr= msg;
+            };
+            return tempStr;
+        }
+
 
         /// <summary>
         /// 发送消息

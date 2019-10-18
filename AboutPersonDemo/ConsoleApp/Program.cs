@@ -1,4 +1,7 @@
-﻿using ConsoleApp.WCFService;
+﻿using Apache.NMS.ActiveMQ.Commands;
+using Common.MQ;
+using ConsoleApp.WCFService;
+using Newtonsoft.Json;
 using Respositories;
 using Respositories.EntityFramework;
 using System;
@@ -18,16 +21,14 @@ namespace ConsoleApp
     {
         static string ReceiveIP = "172.21.197.23";
         static string SendIP = "10.1.1.221";
-
+        static MessageClient clientService;
         static void Main(string[] args)
         {
-            MessageClient clientService = new MessageClient();
-            while (true)
-            {
-                Console.WriteLine("输入发送消息");
-                clientService.SendMsg(Console.ReadLine());
-            }
+            clientService = new MessageClient((msg) => { TestProducer(msg); });
+            TestConsumer();
+
             Console.ReadKey();
+            return;
             #region 20190317-19-40 socket
             string pathSource = @"C:\123.txt";
 
@@ -78,6 +79,57 @@ namespace ConsoleApp
             Console.ReadKey();
             #endregion
 
+        }
+
+        public static void TestConsumer()
+        {
+            #region 消费
+            var consumer = new ActiveMQConsumer();
+            consumer.BrokerUri = @"tcp://192.168.39.92:61616/";
+            //consumer.UserName = "admin";
+            //consumer.Password = "admin";
+            consumer.QueueName = "TestQueueName";
+            consumer.MQMode = MQMode.Queue;
+
+            consumer.OnMessageReceived = (msg) =>
+            {
+                var objMessage = msg as ActiveMQTextMessage;
+                if (objMessage != null)
+                {
+
+                    //var DataCenterMessage = objMessage.Body as DataCenterMessage;
+                    clientService.SendMsg(objMessage.Text);
+                    Console.WriteLine("发送成功");
+                }
+                else
+                {
+                    Console.WriteLine(msg);
+                }
+            };
+            consumer.Open();
+            consumer.StartListen();
+            #endregion
+        }
+
+        public static void TestProducer(string jsonData)
+        {
+            #region 发布
+            var producer = new ActiveMQProducer();
+            producer.BrokerUri = @"tcp://192.168.39.92:61616/";
+            //producer.UserName = "admin";
+            //producer.Password = "admin";
+            producer.QueueName = "TestQueueName";
+            producer.MQMode = MQMode.Queue;
+
+            //var message = new DataCenterMessage()
+            //{
+            //    ID = 1,
+            //    OrderNumber = "2"
+            //};
+            producer.Open();
+            producer.Put(jsonData);
+            producer.Close();
+            #endregion
         }
 
         private static void SendFileInfo(string pathSource)

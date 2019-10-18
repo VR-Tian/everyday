@@ -20,6 +20,12 @@ namespace ConsoleApp.ServiceReference1 {
         
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/Upload")]
         System.Threading.Tasks.Task UploadAsync(string msg);
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/OnLine")]
+        void OnLine();
+        
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/OnLine")]
+        System.Threading.Tasks.Task OnLineAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -66,6 +72,14 @@ namespace ConsoleApp.ServiceReference1 {
         
         public System.Threading.Tasks.Task UploadAsync(string msg) {
             return base.Channel.UploadAsync(msg);
+        }
+        
+        public void OnLine() {
+            base.Channel.OnLine();
+        }
+        
+        public System.Threading.Tasks.Task OnLineAsync() {
+            return base.Channel.OnLineAsync();
         }
     }
 }

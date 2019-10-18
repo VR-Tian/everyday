@@ -18,6 +18,12 @@ namespace AbountCORS.WCFService
         [OperationContract(IsOneWay = true)]
         void Upload(string msg);
 
+        /// <summary>
+        /// 客户端上线
+        /// </summary>
+        [OperationContract(IsOneWay = true)]
+        void OnLine();
+
         //[OperationContract(IsOneWay = true)]
         //void Clear();
         //[OperationContract(IsOneWay = true)]

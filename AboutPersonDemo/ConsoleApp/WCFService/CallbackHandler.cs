@@ -9,13 +9,26 @@ namespace ConsoleApp.WCFService
 {
     public class CallbackHandler : ICalculatorDuplexCallback
     {
-        public void ResultOfUpload(string processMessage)
+        public Action<string> OnDownloadMsgReceived;
+
+        public CallbackHandler()
+        {
+
+        }
+        public CallbackHandler(Action<string> executeDownloadDelegate)
+        {
+            this.OnDownloadMsgReceived = executeDownloadDelegate;
+        }
+        public virtual void ResultOfUpload(string processMessage)
         {
             Console.WriteLine(processMessage);
         }
 
-        public void SendMsg(string serviceMessage)
+        public virtual void SendMsg(string serviceMessage)
         {
+            Console.WriteLine("==============服务端开始推送消息=================");
+            //TODO：通过委托调用MQ发送函数
+            OnDownloadMsgReceived?.Invoke(serviceMessage);
             Console.WriteLine(serviceMessage);
         }
     }

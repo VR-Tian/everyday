@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using System.Threading;
 using System.Timers;
 
 namespace AbountCORS.WCFService
@@ -16,28 +17,40 @@ namespace AbountCORS.WCFService
         double result;
         string equation;
         ICalculatorDuplexCallback callback = null;
-        Timer timer;
+        System.Timers.Timer timer;
+        private string tempStr = "WCF已开启";
         public HWMSService()
         {
             result = 0.0D;
             equation = result.ToString();
-            callback = OperationContext.Current.GetCallbackChannel<ICalculatorDuplexCallback>();
-            timer = new Timer(2000);
+            timer = new System.Timers.Timer(2000);
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
         }
 
+
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             //TODO：推送消息到MQ转发程序
-            //1服务器在定时推送消息情况下，会存在消息数据堆积，如何存储
-            callback.SendMsg("服务器推送消息：" + "。" + DateTime.Now.ToString());
+            //1如果在定时推送消息情况下，会存在消息数据堆积的问题，如何存储
+            if (callback != null && !string.IsNullOrEmpty(tempStr))
+            {
+                tempStr = tempStr + "|" + DateTime.Now.ToString();
+                callback.SendMsg(tempStr);
+            }
         }
 
         public void Upload(string msg)
         {
             //TODO：应用层处理MQ消息
-            callback.ResultOfUpload("处理成功/r/n===================================");
+            tempStr = msg;
+            Thread.Sleep(10);
+            callback.ResultOfUpload("处理成功\r\n===================================");
+        }
+
+        public void OnLine()
+        {
+            callback = OperationContext.Current.GetCallbackChannel<ICalculatorDuplexCallback>();
         }
     }
 }

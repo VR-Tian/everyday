@@ -7,6 +7,11 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
+  <xs:element name="OnLine">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
   <xs:element name="SendMsg">
     <xs:complexType>
       <xs:sequence>
