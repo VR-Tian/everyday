@@ -7,26 +7,16 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp.WCFService
 {
-    public class CallbackHandler: ICalculatorDuplexCallback
+    public class CallbackHandler : ICalculatorDuplexCallback
     {
-        public void Result(double result)
+        public void ResultOfUpload(string processMessage)
         {
-            Console.WriteLine("Result({0})", result);
+            Console.WriteLine(processMessage);
         }
 
-        public void Equation(string equation)
+        public void SendMsg(string serviceMessage)
         {
-            Console.WriteLine("Equation({0}", equation);
-        }
-
-        public void Equals(double result)
-        {
-            Console.WriteLine("Equation({0}", result);
-        }
-
-        public void SendTime(string eqn)
-        {
-            Console.WriteLine(eqn);
+            Console.WriteLine(serviceMessage);
         }
     }
 }

@@ -100,9 +100,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WCFService\HWMSService.svc.cs">
-      <DependentUpon>HWMSService.svc</DependentUpon>
-    </Compile>
+    <Compile Include="WCFService\HWMSService.cs" />
     <Compile Include="WCFService\ICalculatorDuplex.cs" />
     <Compile Include="WCFService\ICalculatorDuplexCallback.cs" />
   </ItemGroup>
