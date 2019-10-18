@@ -22,55 +22,22 @@ namespace AbountCORS.WCFService
             result = 0.0D;
             equation = result.ToString();
             callback = OperationContext.Current.GetCallbackChannel<ICalculatorDuplexCallback>();
-            timer = new Timer(4000);
+            timer = new Timer(2000);
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
         }
 
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            callback.SendTime(DateTime.Now.ToString());
+            //TODO：推送消息到MQ转发程序
+            //1服务器在定时推送消息情况下，会存在消息数据堆积，如何存储
+            callback.SendMsg("服务器推送消息：" + "。" + DateTime.Now.ToString());
         }
 
-        public bool SendTime()
-        {   
-            callback.SendTime(DateTime.Now.ToString());
-            return true;
-        }
-
-        public void Clear()
+        public void Upload(string msg)
         {
-            callback.Equation(equation + " = " + result.ToString());
-            result = 0.0D;
-            equation = result.ToString();
-        }
-
-        public void AddTo(double n)
-        {
-            result += n;
-            equation += " + " + n.ToString();
-            callback.Equals(result);
-        }
-
-        public void SubtractFrom(double n)
-        {
-            result -= n;
-            equation += " - " + n.ToString();
-            callback.Equals(result);
-        }
-
-        public void MultiplyBy(double n)
-        {
-            result *= n;
-            equation += " * " + n.ToString();
-            callback.Equals(result);
-        }
-
-        public void DivideBy(double n)
-        {
-            result /= n;
-            equation += " / " + n.ToString();
-            callback.Equals(result);
+            //TODO：应用层处理MQ消息
+            callback.ResultOfUpload("处理成功/r/n===================================");
         }
     }
 }

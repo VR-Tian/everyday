@@ -59,7 +59,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WCFService\CallbackHandler.cs" />
-    <Compile Include="WCFService\Class1.cs" />
+    <Compile Include="WCFService\MessageClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

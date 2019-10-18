@@ -15,48 +15,21 @@ namespace ConsoleApp.ServiceReference1 {
     [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.ICalculatorDuplex", CallbackContract=typeof(ConsoleApp.ServiceReference1.ICalculatorDuplexCallback), SessionMode=System.ServiceModel.SessionMode.Required)]
     public interface ICalculatorDuplex {
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/Clear")]
-        void Clear();
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/Upload")]
+        void Upload(string msg);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/Clear")]
-        System.Threading.Tasks.Task ClearAsync();
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/AddTo")]
-        void AddTo(double n);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/AddTo")]
-        System.Threading.Tasks.Task AddToAsync(double n);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/SubtractFrom")]
-        void SubtractFrom(double n);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/SubtractFrom")]
-        System.Threading.Tasks.Task SubtractFromAsync(double n);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/MultiplyBy")]
-        void MultiplyBy(double n);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/MultiplyBy")]
-        System.Threading.Tasks.Task MultiplyByAsync(double n);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/DivideBy")]
-        void DivideBy(double n);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/DivideBy")]
-        System.Threading.Tasks.Task DivideByAsync(double n);
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/Upload")]
+        System.Threading.Tasks.Task UploadAsync(string msg);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface ICalculatorDuplexCallback {
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/Equals")]
-        void Equals(double result);
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/SendMsg")]
+        void SendMsg(string serviceMessage);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/Equation")]
-        void Equation(string eqn);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/SendTime")]
-        void SendTime(string eqn);
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/ResultOfUpload")]
+        void ResultOfUpload(string processMessage);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -87,44 +60,12 @@ namespace ConsoleApp.ServiceReference1 {
                 base(callbackInstance, binding, remoteAddress) {
         }
         
-        public void Clear() {
-            base.Channel.Clear();
+        public void Upload(string msg) {
+            base.Channel.Upload(msg);
         }
         
-        public System.Threading.Tasks.Task ClearAsync() {
-            return base.Channel.ClearAsync();
-        }
-        
-        public void AddTo(double n) {
-            base.Channel.AddTo(n);
-        }
-        
-        public System.Threading.Tasks.Task AddToAsync(double n) {
-            return base.Channel.AddToAsync(n);
-        }
-        
-        public void SubtractFrom(double n) {
-            base.Channel.SubtractFrom(n);
-        }
-        
-        public System.Threading.Tasks.Task SubtractFromAsync(double n) {
-            return base.Channel.SubtractFromAsync(n);
-        }
-        
-        public void MultiplyBy(double n) {
-            base.Channel.MultiplyBy(n);
-        }
-        
-        public System.Threading.Tasks.Task MultiplyByAsync(double n) {
-            return base.Channel.MultiplyByAsync(n);
-        }
-        
-        public void DivideBy(double n) {
-            base.Channel.DivideBy(n);
-        }
-        
-        public System.Threading.Tasks.Task DivideByAsync(double n) {
-            return base.Channel.DivideByAsync(n);
+        public System.Threading.Tasks.Task UploadAsync(string msg) {
+            return base.Channel.UploadAsync(msg);
         }
     }
 }
