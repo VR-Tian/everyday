@@ -21,12 +21,8 @@ namespace ConsoleApp
 
         static void Main(string[] args)
         {
-            MessageClient clientService = new MessageClient();
-            while (true)
-            {
-                Console.WriteLine("输入发送消息");
-                clientService.SendMsg(Console.ReadLine());
-            }
+            Class1 clientService = new Class1();
+            clientService.TestService();
             Console.ReadKey();
             #region 20190317-19-40 socket
             string pathSource = @"C:\123.txt";

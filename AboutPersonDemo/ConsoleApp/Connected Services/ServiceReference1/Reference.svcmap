@@ -23,7 +23,7 @@
   </MetadataSources>
   <Metadata>
     <MetadataFile FileName="HWMSService.wsdl" MetadataType="Wsdl" ID="1cc2908b-de14-4d51-8270-a91a80a4f396" SourceId="1" SourceUrl="http://localhost:8091/WCFService/HWMSService.svc?wsdl" />
-    <MetadataFile FileName="HWMSService.xsd" MetadataType="Schema" ID="da4175ae-6d5b-411b-be22-2c767ce0dcb4" SourceId="1" SourceUrl="http://localhost:8091/WCFService/HWMSService.svc?xsd=xsd1" />
+    <MetadataFile FileName="HWMSService.xsd" MetadataType="Schema" ID="0d19baf1-a065-42eb-9227-f3c3c7c3c1e9" SourceId="1" SourceUrl="http://localhost:8091/WCFService/HWMSService.svc?xsd=xsd1" />
     <MetadataFile FileName="HWMSService1.xsd" MetadataType="Schema" ID="c7a034e2-1cf4-4508-86a6-e67da8dc740a" SourceId="1" SourceUrl="http://localhost:8091/WCFService/HWMSService.svc?xsd=xsd0" />
     <MetadataFile FileName="HWMSService.disco" MetadataType="Disco" ID="9db8f143-fb38-42be-8f66-e0924f59e24c" SourceId="1" SourceUrl="http://localhost:8091/WCFService/HWMSService.svc?disco" />
   </Metadata>
