@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Domain.Specifications.Specification&lt;T&gt;">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JAAQAAAAIAAAAAAAAAAAAAAAACAAAABgAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\Specification.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Domain.Specifications.CompositeSpecification&lt;T&gt;" Collapsed="true">
+    <Position X="2.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAACACAAAAAgAA=</HashCode>
+      <FileName>Specifications\CompositeSpecification.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Domain.Specifications.AndSpecification&lt;T&gt;">
+    <Position X="1.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\AndSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Domain.Specifications.AndNotSpecification&lt;T&gt;" Collapsed="true">
+    <Position X="4" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\AndNotSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Domain.Specifications.OrSpecification&lt;T&gt;" Collapsed="true">
+    <Position X="7" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\OrSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Domain.Specifications.NotSpecification&lt;T&gt;" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Specifications\NotSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Domain.Specifications.ExpressionSpecification&lt;T&gt;" Collapsed="true">
+    <Position X="5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Specifications\ExpressionSpecification.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Microsoft YaHei UI" Size="9" />
+</ClassDiagram>

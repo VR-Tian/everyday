@@ -24,6 +24,12 @@ namespace AbountCORS.WCFService
         [OperationContract(IsOneWay = true)]
         void OnLine();
 
+        /// <summary>
+        /// 客户端下线
+        /// </summary>
+        //[OperationContract(IsOneWay = true)]
+        //void OffLine(string hospName);
+
         //[OperationContract(IsOneWay = true)]
         //void Clear();
         //[OperationContract(IsOneWay = true)]

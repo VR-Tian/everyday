@@ -53,6 +53,12 @@ namespace ConsoleApp.WCFService
             return tempStr;
         }
 
+        public void OffLine()
+        {
+            //client.OffLine("黄埔");
+            instanceContext.Close();
+        }
+
 
         /// <summary>
         /// 发送消息

@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -17,16 +18,47 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp
 {
+    public delegate bool ControlCtrlDelegate(int CtrlType);
     class Program
     {
+
+        [DllImport("kernel32.dll")]
+        private static extern bool SetConsoleCtrlHandler(ControlCtrlDelegate HandlerRoutine, bool Add);
+
+        static ControlCtrlDelegate newDelegate = new ControlCtrlDelegate(HandlerRoutine);
+
+        public static bool HandlerRoutine(int CtrlType)
+        {
+            switch (CtrlType)
+            {
+                case 0:
+                    Console.WriteLine("0工具被强制关闭"); //Ctrl+C关闭
+                    clientService.OffLine();
+                    break;
+                case 2:
+                    Console.WriteLine("2工具被强制关闭");//按控制台关闭按钮关闭
+                    clientService.OffLine();
+                    break;
+            }
+            return false;
+        }
+
+
         static string ReceiveIP = "172.21.197.23";
         static string SendIP = "10.1.1.221";
         static MessageClient clientService;
         static void Main(string[] args)
         {
-            clientService = new MessageClient((msg) => { TestProducer(msg); });
-            TestConsumer();
+            //var inputValue = Console.ReadLine();
+            //if (bool.Parse(inputValue))
+            //{
+            //    clientService = new MessageClient((msg) => { TestProducer(msg); });
+            //}
+            //TestConsumer();
 
+            MY7WRepository mY7WRepository = new MY7WRepository(new Respositories.EntityFramework.EntityFrameworkRepositoryContext());
+            var querySelect = mY7WRepository.DoFindAll(new Respositories.EntityFramework.My7W() { Name = "Tick" }).ToList();
+           
             Console.ReadKey();
             return;
             #region 20190317-19-40 socket

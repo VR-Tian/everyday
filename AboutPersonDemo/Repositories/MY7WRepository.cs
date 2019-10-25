@@ -20,7 +20,13 @@ namespace Respositories
         public void AddMY7W(My7W my7W)
         {
             Add(my7W);
-            //DoFindAll(new );
+        }
+
+        public IEnumerable<My7W> DoFindAll(My7W my7W)
+        {
+            ISpecification<My7W> spec = Specification<My7W>.Eval(o => (o as My7W).Name.Contains(my7W.Name) && o.Id == 1);
+            var queryModel = DoFindAll(spec);
+            return queryModel;
         }
     }
 }

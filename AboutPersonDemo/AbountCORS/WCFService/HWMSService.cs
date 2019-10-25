@@ -16,7 +16,7 @@ namespace AbountCORS.WCFService
     {
         double result;
         string equation;
-        ICalculatorDuplexCallback callback = null;
+       ICalculatorDuplexCallback callback = null;
         System.Timers.Timer timer;
         private string tempStr = "WCF已开启";
         public HWMSService()

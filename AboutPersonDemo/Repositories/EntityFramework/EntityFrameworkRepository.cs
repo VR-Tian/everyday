@@ -32,10 +32,10 @@ namespace Respositories.EntityFramework
         protected override IEnumerable<TAggregateRoot> DoFindAll(ISpecification<TAggregateRoot> specification, System.Linq.Expressions.Expression<Func<TAggregateRoot, dynamic>> sortPredicate, SortOrder sortOrder)
         {
             var query = repositoryContext.Context.Set<TAggregateRoot>().
-                   Where(specification.IsSatisfiedBy);
+                   Where(specification.GetExpression());
             if (sortPredicate != null)
             {
-                query = query.OrderBy(sortPredicate.Compile());
+                query = query.OrderBy(sortPredicate);
             }
             switch (sortOrder)
             {
@@ -44,7 +44,7 @@ namespace Respositories.EntityFramework
                 case SortOrder.Descending:
                     return query.OrderByDescending(sortPredicate.Compile()).ToList();
             }
-            throw new NotImplementedException();
+            return query;
         }
     }
 }
