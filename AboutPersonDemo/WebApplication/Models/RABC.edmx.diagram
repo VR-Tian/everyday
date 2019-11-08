@@ -7,7 +7,7 @@
       <Diagram DiagramId="a8ed06f3757c427c86a69ccdb128d106" Name="Diagram1" >
         <EntityTypeShape EntityType="Model1.User" Width="1.5" PointX="1.625" PointY="4.125" />
         <EntityTypeShape EntityType="Model1.Role" Width="1.5" PointX="5.875" PointY="0.75" />
-        <EntityTypeShape EntityType="Model1.Access" Width="1.5" PointX="10.25" PointY="4" />
+        <EntityTypeShape EntityType="Model1.Access" Width="1.5" PointX="7" PointY="4.125" />
         <AssociationConnector Association="Model1.UserRole" />
       </Diagram>
     </edmx:Diagrams>

@@ -18,10 +18,68 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp
 {
+    public interface IAmial
+    {
+         int Age { get; set; }
+    }
+
+    public abstract class Animal : IAmial
+    {
+        public abstract int Age { get; set; }
+    }
+
+    public abstract class Person : Animal
+    {
+
+        public virtual void MakeLove(int time)
+        {
+           
+            if (this.Age < 16)
+            {
+                Console.WriteLine("Stop ！You just a brother");
+                return;
+            }
+            HowMakeLove();
+            Console.WriteLine("Person DoWork Speak " + time);
+        }
+        public abstract void HowMakeLove();
+    }
+
+    public class Japanese : Person
+    {
+        public override int Age
+        {
+            get;
+            set;
+        }
+
+        public override void HowMakeLove()
+        {
+            Console.WriteLine("do ci do ci do do");
+        }
+    }
+
+    public class Korea : Person
+    {
+        public override int Age
+        {
+            get; set;
+        }
+
+        public override void HowMakeLove()
+        {
+            Console.WriteLine("pa ci pa ci ci ci");
+        }
+
+        public override void MakeLove(int time)
+        {
+            Console.WriteLine("Korea MakeLove speak " + time);
+        }
+    }
+
     public delegate bool ControlCtrlDelegate(int CtrlType);
     class Program
     {
-
         [DllImport("kernel32.dll")]
         private static extern bool SetConsoleCtrlHandler(ControlCtrlDelegate HandlerRoutine, bool Add);
 
@@ -44,23 +102,71 @@ namespace ConsoleApp
         }
 
 
+
+
         static string ReceiveIP = "172.21.197.23";
         static string SendIP = "10.1.1.221";
         static MessageClient clientService;
         static void Main(string[] args)
         {
+
+            #region 20191106
+            List<int> list = new List<int>() { 1, 2, 2, 3, 4, 5 };
+            var temp = list.GroupBy(t => t);
+            Console.WriteLine(temp.Count());
+            Console.ReadKey();
+            return;
+            #endregion
+
+            #region  封装(类的定义)-继承(接口、抽象类的实现)-多态(继承类和实现类的关系)
+            //涉及概念：堆栈、重构、重写
+            //Person japanese = new Japanese();
+            //japanese.Age = 19;
+            //japanese.MakeLove(10);
+
+            //Korea korea = new Korea();
+            //korea.Age = 22;
+            //korea.MakeLove(20);
+
+            //Person koreAsPerson = (Person)korea;
+            //koreAsPerson.MakeLove(30);
+
+            //Console.Read();
+            //return;
+            #endregion
+
+            #region 关于linq to entity和表达树Expression的关系
+            //在.NET的linq to entity 中有两种等价写法：
+            //1、一般通过面向对象的linq写法。
+            //2、lambda是.NET框架提供的语法糖引擎，通过匿名委托的写法生成linq语句。
+
+            My7WDbContext dbContext = new My7WDbContext();
+            var queryEntity = dbContext.My7W.Where(x => x.Id == 1).FirstOrDefault();
+            var queryEntityOfLinq = (from my7w in dbContext.My7W
+                                     where my7w.Id == 1
+                                     select my7w).FirstOrDefault();
+           
+            return;
+            #endregion
+
+            #region 20191025 关于DDD规约的Demo测试
+            MY7WRepository mY7WRepository = new MY7WRepository(new Respositories.EntityFramework.EntityFrameworkRepositoryContext());
+            var querySelect = mY7WRepository.DoFindAll(new Respositories.EntityFramework.UserInfo() { Name = "Tick" }).ToList();
+
+            Console.ReadKey();
+            return;
+            #endregion
+
+            #region 测试WCF同步数据（ActiveMQ消息队列）
             //var inputValue = Console.ReadLine();
             //if (bool.Parse(inputValue))
             //{
             //    clientService = new MessageClient((msg) => { TestProducer(msg); });
             //}
             //TestConsumer();
+            #endregion
 
-            MY7WRepository mY7WRepository = new MY7WRepository(new Respositories.EntityFramework.EntityFrameworkRepositoryContext());
-            var querySelect = mY7WRepository.DoFindAll(new Respositories.EntityFramework.My7W() { Name = "Tick" }).ToList();
-           
-            Console.ReadKey();
-            return;
+
             #region 20190317-19-40 socket
             string pathSource = @"C:\123.txt";
 

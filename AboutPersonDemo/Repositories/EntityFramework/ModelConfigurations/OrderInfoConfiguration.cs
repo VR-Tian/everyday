@@ -8,20 +8,21 @@ using System.Threading.Tasks;
 
 namespace Respositories.EntityFramework.ModelConfigurations
 {
-    public class UserInfoConfiguration: EntityTypeConfiguration<UserInfo>
+    public class OrderInfoConfiguration : EntityTypeConfiguration<OrderInfo>
     {
-        public UserInfoConfiguration()
+        public OrderInfoConfiguration()
         {
             HasKey(c => c.Id);
             Property(c => c.Id)
                 .IsRequired()
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(c => c.Name)
+            Property(c => c.OrderCode)
                 .IsRequired()
                 .HasMaxLength(50);
-            Property(c => c.Address)
-                .IsRequired()
-                .HasMaxLength(2000);
+            Property(c => c.CreateTime)
+                .IsRequired();
+            Property(c => c.UserID)
+                .IsRequired();
         }
     }
 }

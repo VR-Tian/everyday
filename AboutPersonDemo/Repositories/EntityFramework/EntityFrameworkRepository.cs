@@ -29,20 +29,26 @@ namespace Respositories.EntityFramework
             this.repositoryContext.RegisterNew(aggregateRoot);
         }
 
+        protected override IEnumerable<TAggregateRoot> DoFindAll(ISpecification<TAggregateRoot> specification)
+        {
+            return base.DoFindAll(specification);
+        }
+
         protected override IEnumerable<TAggregateRoot> DoFindAll(ISpecification<TAggregateRoot> specification, System.Linq.Expressions.Expression<Func<TAggregateRoot, dynamic>> sortPredicate, SortOrder sortOrder)
         {
             var query = repositoryContext.Context.Set<TAggregateRoot>().
                    Where(specification.GetExpression());
             if (sortPredicate != null)
             {
-                query = query.OrderBy(sortPredicate);
-            }
-            switch (sortOrder)
-            {
-                case SortOrder.Ascending:
-                    return query.OrderBy(sortPredicate.Compile()).ToList();
-                case SortOrder.Descending:
-                    return query.OrderByDescending(sortPredicate.Compile()).ToList();
+                switch (sortOrder)
+                {
+                    case SortOrder.Ascending:
+                        return query.OrderBy(sortPredicate.Compile()).ToList();
+                    case SortOrder.Descending:
+                        return query.OrderByDescending(sortPredicate.Compile()).ToList();
+                    default:
+                        break;
+                }
             }
             return query;
         }

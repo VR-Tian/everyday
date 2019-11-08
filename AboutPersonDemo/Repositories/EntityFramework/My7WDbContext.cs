@@ -21,21 +21,32 @@
         //为您要在模型中包含的每种实体类型都添加 DbSet。有关配置和使用 Code First  模型
         //的详细信息，请参阅 http://go.microsoft.com/fwlink/?LinkId=390109。
 
-        public virtual DbSet<My7W> MyEntities { get; set; }
+        public virtual DbSet<UserInfo> My7W { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder
                 .Configurations
-                .Add(new My7WConfiguration());
+                .Add(new UserInfoConfiguration())
+                .Add(new OrderInfoConfiguration());
             base.OnModelCreating(modelBuilder);
         }
 
     }
-    public class My7W
+    public class UserInfo
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
     }
+
+    public class OrderInfo
+    {
+        public int Id { get; set; }
+        public int UserID { get; set; }
+        public string OrderCode { get; set; }
+        public DateTime CreateTime { get; set; }
+        public int Status { get; set; }
+    }
+
 }

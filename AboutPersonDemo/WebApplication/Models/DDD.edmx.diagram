@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="93e26c08ea254bb6a2db56a009d02515" Name="Diagram1" ShowGrid="false" >
+        <EntityTypeShape EntityType="Model1.Customer" Width="1.5" PointX="2.125" PointY="1.5" />
+        <EntityTypeShape EntityType="Model1.Order" Width="1.5" PointX="2.125" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.OrderLine" Width="1.5" PointX="4.25" PointY="3.875" />
+        <EntityTypeShape EntityType="Model1.CreditCard" Width="1.5" PointX="4.25" PointY="1.875" />
+        <EntityTypeShape EntityType="Model1.Item" Width="1.5" PointX="6.25" PointY="3.875" />
+        <EntityTypeShape EntityType="Model1.Category" Width="1.5" PointX="8.5" PointY="3.875" />
+        <EntityTypeShape EntityType="Model1.SalesOrder" Width="1.5" PointX="1.25" PointY="7" />
+        <EntityTypeShape EntityType="Model1.ReturnOrder" Width="1.5" PointX="3.375" PointY="7" />
+        <InheritanceConnector EntityType="Model1.ReturnOrder" />
+        <InheritanceConnector EntityType="Model1.SalesOrder" />
+        <AssociationConnector Association="Model1.OrderOrderLine" />
+        <AssociationConnector Association="Model1.OrderLineItem" />
+        <AssociationConnector Association="Model1.CustomerCreditCard" />
+        <AssociationConnector Association="Model1.CustomerOrder" />
+        <AssociationConnector Association="Model1.ItemCategory" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

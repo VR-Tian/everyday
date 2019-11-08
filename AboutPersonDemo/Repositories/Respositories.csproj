@@ -50,9 +50,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseRepository.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="EntityFramework\EntityFrameworkRepository.cs" />
     <Compile Include="EntityFramework\EntityFrameworkRepositoryContext.cs" />
     <Compile Include="EntityFramework\ModelConfigurations\My7WConfiguration.cs" />
+    <Compile Include="EntityFramework\ModelConfigurations\OrderInfoConfiguration.cs" />
     <Compile Include="EntityFramework\My7WDbContext.cs" />
     <Compile Include="IBaseRepository.cs" />
     <Compile Include="MY7WRepository.cs" />
@@ -62,6 +64,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
