@@ -159,6 +159,9 @@
     <Compile Include="Models\OrderStatus.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PartialModel\IAggregateRoot.cs" />
+    <Compile Include="Models\PartialModel\IEntity.cs" />
+    <Compile Include="Models\PartialModel\Order.cs" />
     <Compile Include="Models\PartialModel\OrderLine.cs" />
     <Compile Include="Models\RABC.Designer.cs">
       <AutoGen>True</AutoGen>
