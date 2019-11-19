@@ -29,7 +29,7 @@ namespace ConsoleApp.WCFService
             callbackHandler = new CallbackHandler();
             instanceContext = new InstanceContext(callbackHandler);
             client = new CalculatorDuplexClient(instanceContext);
-            client.OnLine();
+            client.Subscribe();
         }
 
         public MessageClient(Action<string> OnDowLoadMsgAction)
@@ -37,8 +37,8 @@ namespace ConsoleApp.WCFService
             callbackHandler = new CallbackHandler(OnDowLoadMsgAction);
             instanceContext = new InstanceContext(callbackHandler);
             client = new CalculatorDuplexClient(instanceContext);
-            client.OnLine();
-        }
+            client.Subscribe();
+        } 
 
         /// <summary>
         /// 拉取消息
@@ -55,8 +55,12 @@ namespace ConsoleApp.WCFService
 
         public void OffLine()
         {
+            client.Unsubscribe();
             //client.OffLine("黄埔");
+            instanceContext.Abort();
             instanceContext.Close();
+            client.Abort();
+            client.Close();
         }
 
 
@@ -66,7 +70,8 @@ namespace ConsoleApp.WCFService
         /// <param name="msg"></param>
         public void SendMsg(string msg)
         {
-            client.Upload(msg);
+            //client.Upload(msg);
+            Console.WriteLine(msg);
         }
     }
 }

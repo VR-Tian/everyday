@@ -21,21 +21,24 @@ namespace ConsoleApp.ServiceReference1 {
         [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/Upload")]
         System.Threading.Tasks.Task UploadAsync(string msg);
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/OnLine")]
-        void OnLine();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculatorDuplex/Subscribe", ReplyAction="http://tempuri.org/ICalculatorDuplex/SubscribeResponse")]
+        void Subscribe();
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/OnLine")]
-        System.Threading.Tasks.Task OnLineAsync();
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ICalculatorDuplex/Subscribe", ReplyAction="http://tempuri.org/ICalculatorDuplex/SubscribeResponse")]
+        System.Threading.Tasks.Task SubscribeAsync();
+        
+        [System.ServiceModel.OperationContractAttribute(IsTerminating=true, Action="http://tempuri.org/ICalculatorDuplex/Unsubscribe", ReplyAction="http://tempuri.org/ICalculatorDuplex/UnsubscribeResponse")]
+        void Unsubscribe();
+        
+        [System.ServiceModel.OperationContractAttribute(IsTerminating=true, Action="http://tempuri.org/ICalculatorDuplex/Unsubscribe", ReplyAction="http://tempuri.org/ICalculatorDuplex/UnsubscribeResponse")]
+        System.Threading.Tasks.Task UnsubscribeAsync();
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     public interface ICalculatorDuplexCallback {
         
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/SendMsg")]
-        void SendMsg(string serviceMessage);
-        
-        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/ResultOfUpload")]
-        void ResultOfUpload(string processMessage);
+        [System.ServiceModel.OperationContractAttribute(IsOneWay=true, Action="http://tempuri.org/ICalculatorDuplex/SendMsgToClient")]
+        void SendMsgToClient(string serviceMessage);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -74,12 +77,20 @@ namespace ConsoleApp.ServiceReference1 {
             return base.Channel.UploadAsync(msg);
         }
         
-        public void OnLine() {
-            base.Channel.OnLine();
+        public void Subscribe() {
+            base.Channel.Subscribe();
         }
         
-        public System.Threading.Tasks.Task OnLineAsync() {
-            return base.Channel.OnLineAsync();
+        public System.Threading.Tasks.Task SubscribeAsync() {
+            return base.Channel.SubscribeAsync();
+        }
+        
+        public void Unsubscribe() {
+            base.Channel.Unsubscribe();
+        }
+        
+        public System.Threading.Tasks.Task UnsubscribeAsync() {
+            return base.Channel.UnsubscribeAsync();
         }
     }
 }

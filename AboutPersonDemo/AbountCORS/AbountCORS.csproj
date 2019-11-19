@@ -104,6 +104,7 @@
     <Compile Include="WCFService\HWMSService.cs" />
     <Compile Include="WCFService\ICalculatorDuplex.cs" />
     <Compile Include="WCFService\ICalculatorDuplexCallback.cs" />
+    <Compile Include="WCFService\ISampleContract.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -31,5 +31,11 @@ namespace ConsoleApp.WCFService
             OnDownloadMsgReceived?.Invoke(serviceMessage);
             Console.WriteLine(serviceMessage);
         }
+
+        public void SendMsgToClient(string serviceMessage)
+        {
+            Console.WriteLine("==============服务端开始推送消息=================");
+            Console.WriteLine(serviceMessage);
+        }
     }
 }

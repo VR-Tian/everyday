@@ -7,22 +7,30 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="OnLine">
+  <xs:element name="Subscribe">
     <xs:complexType>
       <xs:sequence />
     </xs:complexType>
   </xs:element>
-  <xs:element name="SendMsg">
+  <xs:element name="SubscribeResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="Unsubscribe">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="UnsubscribeResponse">
+    <xs:complexType>
+      <xs:sequence />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="SendMsgToClient">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="0" name="serviceMessage" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="ResultOfUpload">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="processMessage" nillable="true" type="xs:string" />
       </xs:sequence>
     </xs:complexType>
   </xs:element>

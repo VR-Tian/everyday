@@ -87,7 +87,9 @@
     <Compile Include="WCFService\MessageClient.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Connected Services\ServiceReference1\HWMSService.wsdl" />
     <None Include="Connected Services\ServiceReference1\HWMSService.xsd">
       <SubType>Designer</SubType>
