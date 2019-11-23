@@ -6,194 +6,8 @@
     <edmx:StorageModels>
     <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="Model1StoreContainer">
-    <EntitySet Name="Customer" EntityType="Model1.Store.Customer" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Order" EntityType="Model1.Store.Order" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="OrderLine" EntityType="Model1.Store.OrderLine" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="CreditCard" EntityType="Model1.Store.CreditCard" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Item" EntityType="Model1.Store.Item" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Category" EntityType="Model1.Store.Category" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Order_SalesOrder" EntityType="Model1.Store.Order_SalesOrder" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Order_ReturnOrder" EntityType="Model1.Store.Order_ReturnOrder" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="OrderOrderLine" Association="Model1.Store.OrderOrderLine">
-      <End Role="Order" EntitySet="Order" />
-      <End Role="OrderLine" EntitySet="OrderLine" />
-    </AssociationSet>
-    <AssociationSet Name="OrderLineItem" Association="Model1.Store.OrderLineItem">
-      <End Role="OrderLine" EntitySet="OrderLine" />
-      <End Role="Item" EntitySet="Item" />
-    </AssociationSet>
-    <AssociationSet Name="CustomerCreditCard" Association="Model1.Store.CustomerCreditCard">
-      <End Role="Customer" EntitySet="Customer" />
-      <End Role="CreditCard" EntitySet="CreditCard" />
-    </AssociationSet>
-    <AssociationSet Name="CustomerOrder" Association="Model1.Store.CustomerOrder">
-      <End Role="Customer" EntitySet="Customer" />
-      <End Role="Order" EntitySet="Order" />
-    </AssociationSet>
-    <AssociationSet Name="ItemCategory" Association="Model1.Store.ItemCategory">
-      <End Role="Item" EntitySet="Item" />
-      <End Role="Category" EntitySet="Category" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SalesOrder_inherits_Order" Association="Model1.Store.FK_SalesOrder_inherits_Order">
-      <End Role="Order" EntitySet="Order" />
-      <End Role="SalesOrder" EntitySet="Order_SalesOrder" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ReturnOrder_inherits_Order" Association="Model1.Store.FK_ReturnOrder_inherits_Order">
-      <End Role="Order" EntitySet="Order" />
-      <End Role="ReturnOrder" EntitySet="Order_ReturnOrder" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="Customer">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="LoginName" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CreateDate" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Order">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CreateDate" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Customer_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="OrderLine">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Quantity" Type="decimal" Nullable="false" />
-    <Property Name="Discount" Type="int" Nullable="false" />
-    <Property Name="Order_Id" Type="int" Nullable="false" />
-    <Property Name="Item_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="CreditCard">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Number" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Customer_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Item">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="SalesPrice" Type="decimal" Nullable="false" />
-    <Property Name="Category_Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Category">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Order_SalesOrder">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="ShippingDate" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Order_ReturnOrder">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="ReturnDate" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Id" Type="int" Nullable="false" />
-  </EntityType>
-  <Association Name="OrderOrderLine">
-    <End Role="Order" Type="Model1.Store.Order" Multiplicity="1" />
-    <End Role="OrderLine" Type="Model1.Store.OrderLine" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Order">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="OrderLine">
-        <PropertyRef Name="Order_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="OrderLineItem">
-    <End Role="OrderLine" Type="Model1.Store.OrderLine" Multiplicity="*" />
-    <End Role="Item" Type="Model1.Store.Item" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Item">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="OrderLine">
-        <PropertyRef Name="Item_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="CustomerCreditCard">
-    <End Role="Customer" Type="Model1.Store.Customer" Multiplicity="1" />
-    <End Role="CreditCard" Type="Model1.Store.CreditCard" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Customer">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="CreditCard">
-        <PropertyRef Name="Customer_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="CustomerOrder">
-    <End Role="Customer" Type="Model1.Store.Customer" Multiplicity="1" />
-    <End Role="Order" Type="Model1.Store.Order" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Customer">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Order">
-        <PropertyRef Name="Customer_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ItemCategory">
-    <End Role="Item" Type="Model1.Store.Item" Multiplicity="*" />
-    <End Role="Category" Type="Model1.Store.Category" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Category">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Item">
-        <PropertyRef Name="Category_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SalesOrder_inherits_Order">
-    <End Role="Order" Type="Model1.Store.Order" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="SalesOrder" Type="Model1.Store.Order_SalesOrder" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Order">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="SalesOrder">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ReturnOrder_inherits_Order">
-    <End Role="Order" Type="Model1.Store.Order" Multiplicity="1">
-      <OnDelete Action="Cascade" />
-    </End>
-    <End Role="ReturnOrder" Type="Model1.Store.Order_ReturnOrder" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Order">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ReturnOrder">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+    </EntityContainer>
+  </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
@@ -261,12 +75,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Order" Relationship="Model1.OrderOrderLine" FromRole="OrderLine" ToRole="Order" />
-          <Property Name="Quantity" Type="Decimal" Nullable="false" >
-            <Documentation>
-              <Summary>商品数量</Summary>
-              <LongDescription>商品数量</LongDescription>
-            </Documentation>
-          </Property>
+          <Property Name="Quantity" Type="Decimal" Nullable="false" />
           <Property Name="Discount" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Item" Relationship="Model1.OrderLineItem" FromRole="OrderLine" ToRole="Item" />
         </EntityType>
@@ -279,9 +88,6 @@
           <NavigationProperty Name="Customer" Relationship="Model1.CustomerCreditCard" FromRole="CreditCard" ToRole="Customer" />
         </EntityType>
         <EntityType Name="Item">
-          <Documentation>
-            <LongDescription>每个订单项的明细</LongDescription>
-          </Documentation>
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -291,9 +97,6 @@
           <NavigationProperty Name="Category" Relationship="Model1.ItemCategory" FromRole="Item" ToRole="Category" />
         </EntityType>
         <EntityType Name="Category">
-          <Documentation>
-            <LongDescription>商品种类</LongDescription>
-          </Documentation>
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -302,7 +105,6 @@
         </EntityType>
         <EntityType Name="SalesOrder" BaseType="Model1.Order">
           <Property Name="ShippingDate" Type="String" Nullable="false" />
-          <Property Name="Status" Type="String" Nullable="false" />
         </EntityType>
         <EntityType Name="ReturnOrder" BaseType="Model1.Order">
           <Property Name="ReturnDate" Type="String" Nullable="false" />
@@ -333,108 +135,7 @@
     <edmx:Mappings>
     <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
-    <EntitySetMapping Name="Customer">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.Customer)">
-        <MappingFragment StoreEntitySet="Customer">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="LoginName" ColumnName="LoginName" />
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Order">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.Order)">
-        <MappingFragment StoreEntitySet="Order">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.SalesOrder)">
-        <MappingFragment StoreEntitySet="Order_SalesOrder">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ShippingDate" ColumnName="ShippingDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.ReturnOrder)">
-        <MappingFragment StoreEntitySet="Order_ReturnOrder">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ReturnDate" ColumnName="ReturnDate" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="OrderLine">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.OrderLine)">
-        <MappingFragment StoreEntitySet="OrderLine">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-          <ScalarProperty Name="Discount" ColumnName="Discount" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="CreditCard">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.CreditCard)">
-        <MappingFragment StoreEntitySet="CreditCard">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Number" ColumnName="Number" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Item">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.Item)">
-        <MappingFragment StoreEntitySet="Item">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="SalesPrice" ColumnName="SalesPrice" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Category">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.Category)">
-        <MappingFragment StoreEntitySet="Category">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <AssociationSetMapping Name="OrderOrderLine" TypeName="Model1.OrderOrderLine" StoreEntitySet="OrderLine">
-      <EndProperty Name="Order">
-        <ScalarProperty Name="Id" ColumnName="Order_Id" />
-      </EndProperty>
-      <EndProperty Name="OrderLine">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="OrderLineItem" TypeName="Model1.OrderLineItem" StoreEntitySet="OrderLine">
-      <EndProperty Name="Item">
-        <ScalarProperty Name="Id" ColumnName="Item_Id" />
-      </EndProperty>
-      <EndProperty Name="OrderLine">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="CustomerCreditCard" TypeName="Model1.CustomerCreditCard" StoreEntitySet="CreditCard">
-      <EndProperty Name="Customer">
-        <ScalarProperty Name="Id" ColumnName="Customer_Id" />
-      </EndProperty>
-      <EndProperty Name="CreditCard">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="CustomerOrder" TypeName="Model1.CustomerOrder" StoreEntitySet="Order">
-      <EndProperty Name="Customer">
-        <ScalarProperty Name="Id" ColumnName="Customer_Id" />
-      </EndProperty>
-      <EndProperty Name="Order">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="ItemCategory" TypeName="Model1.ItemCategory" StoreEntitySet="Item">
-      <EndProperty Name="Category">
-        <ScalarProperty Name="Id" ColumnName="Category_Id" />
-      </EndProperty>
-      <EndProperty Name="Item">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-  </EntityContainerMapping>
+    </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->

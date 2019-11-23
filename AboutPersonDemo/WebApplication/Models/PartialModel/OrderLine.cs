@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using WebApplication.Models.PartialModel;
 
 namespace WebApplication.Models
 {
-    public partial class OrderLine: IEntity
+    public partial class OrderLine
     {
         /// <summary>
-        /// 返回当前订单项的总金额
+        /// 返回订单行商品总金额
         /// </summary>
         /// <remarks>
         /// 数量*销售价格-折扣

@@ -11,9 +11,9 @@ namespace Respositories.EntityFramework
     /// <summary>
     /// EF实现的仓储
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class EntityFrameworkRepository<T> : BaseRepository<T>
-        where T:class
+    /// <typeparam name="TAggregateRoot"></typeparam>
+    public class EntityFrameworkRepository<TAggregateRoot> : BaseRepository<TAggregateRoot>
+        where TAggregateRoot:class
     {
         #region Private Fields
         private readonly EntityFrameworkRepositoryContext repositoryContext;
@@ -24,19 +24,19 @@ namespace Respositories.EntityFramework
             this.repositoryContext = repositoryContext;
         }
 
-        protected override void DoAdd(T aggregateRoot)
+        protected override void DoAdd(TAggregateRoot aggregateRoot)
         {
             this.repositoryContext.RegisterNew(aggregateRoot);
         }
 
-        protected override IEnumerable<T> DoFindAll(ISpecification<T> specification)
+        protected override IEnumerable<TAggregateRoot> DoFindAll(ISpecification<TAggregateRoot> specification)
         {
             return base.DoFindAll(specification);
         }
 
-        protected override IEnumerable<T> DoFindAll(ISpecification<T> specification, System.Linq.Expressions.Expression<Func<T, dynamic>> sortPredicate, SortOrder sortOrder)
+        protected override IEnumerable<TAggregateRoot> DoFindAll(ISpecification<TAggregateRoot> specification, System.Linq.Expressions.Expression<Func<TAggregateRoot, dynamic>> sortPredicate, SortOrder sortOrder)
         {
-            var query = repositoryContext.Context.Set<T>().
+            var query = repositoryContext.Context.Set<TAggregateRoot>().
                    Where(specification.GetExpression());
             if (sortPredicate != null)
             {
