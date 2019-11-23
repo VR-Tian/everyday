@@ -87,16 +87,10 @@ namespace ConsoleApp
 
         public static bool HandlerRoutine(int CtrlType)
         {
-            switch (CtrlType)
+            Console.WriteLine("控制台正在关闭");
+            if (clientService != null)
             {
-                case 0:
-                    Console.WriteLine("0工具被强制关闭"); //Ctrl+C关闭
-                    clientService.OffLine();
-                    break;
-                case 2:
-                    Console.WriteLine("2工具被强制关闭");//按控制台关闭按钮关闭
-                    clientService.OffLine();
-                    break;
+                clientService.OffLine();
             }
             return false;
         }
@@ -111,11 +105,11 @@ namespace ConsoleApp
         {
 
             #region 20191106
-            List<int> list = new List<int>() { 1, 2, 2, 3, 4, 5 };
-            var temp = list.GroupBy(t => t);
-            Console.WriteLine(temp.Count());
-            Console.ReadKey();
-            return;
+            //List<int> list = new List<int>() { 1, 2, 2, 3, 4, 5 };
+            //var temp = list.GroupBy(t => t);
+            //Console.WriteLine(temp.Count());
+            //Console.ReadKey();
+            //return;
             #endregion
 
             #region  封装(类的定义)-继承(接口、抽象类的实现)-多态(继承类和实现类的关系)
@@ -136,33 +130,37 @@ namespace ConsoleApp
             #endregion
 
             #region 关于linq to entity和表达树Expression的关系
-            //在.NET的linq to entity 中有两种等价写法：
-            //1、一般通过面向对象的linq写法。
-            //2、lambda是.NET框架提供的语法糖引擎，通过匿名委托的写法生成linq语句。
+            ////在.NET的linq to entity 中有两种等价写法：
+            ////1、一般通过面向对象的linq写法。
+            ////2、lambda是.NET框架提供的语法糖引擎，通过匿名委托的写法生成linq语句。
 
-            My7WDbContext dbContext = new My7WDbContext();
-            var queryEntity = dbContext.My7W.Where(x => x.Id == 1).FirstOrDefault();
-            var queryEntityOfLinq = (from my7w in dbContext.My7W
-                                     where my7w.Id == 1
-                                     select my7w).FirstOrDefault();
-           
-            return;
+            //My7WDbContext dbContext = new My7WDbContext();
+            //var queryEntity = dbContext.My7W.Where(x => x.Id == 1).FirstOrDefault();
+            //var queryEntityOfLinq = (from my7w in dbContext.My7W
+            //                         where my7w.Id == 1
+            //                         select my7w).FirstOrDefault();
+
+            //return;
             #endregion
 
             #region 20191025 关于DDD规约的Demo测试
-            MY7WRepository mY7WRepository = new MY7WRepository(new Respositories.EntityFramework.EntityFrameworkRepositoryContext());
-            var querySelect = mY7WRepository.DoFindAll(new Respositories.EntityFramework.UserInfo() { Name = "Tick" }).ToList();
+            //MY7WRepository mY7WRepository = new MY7WRepository(new Respositories.EntityFramework.EntityFrameworkRepositoryContext());
+            //var querySelect = mY7WRepository.DoFindAll(new Respositories.EntityFramework.UserInfo() { Name = "Tick" }).ToList();
 
-            Console.ReadKey();
-            return;
+            //Console.ReadKey();
+            //return;
             #endregion
 
             #region 测试WCF同步数据（ActiveMQ消息队列）
-            //var inputValue = Console.ReadLine();
-            //if (bool.Parse(inputValue))
-            //{
-            //    clientService = new MessageClient((msg) => { TestProducer(msg); });
-            //}
+            SetConsoleCtrlHandler(newDelegate, true);
+            var inputValue = Console.ReadLine();
+            if (bool.Parse(inputValue))
+            {
+                clientService = new MessageClient(x => { Console.WriteLine(x); });
+            }
+            Console.ReadKey();
+            clientService.OffLine();
+            return;
             //TestConsumer();
             #endregion
 

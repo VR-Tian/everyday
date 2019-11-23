@@ -14,21 +14,36 @@ namespace AbountCORS.WCFService
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession)]
     public class HWMSService : ICalculatorDuplex
     {
-        double result;
-        string equation;
-       ICalculatorDuplexCallback callback = null;
+        /// <summary>
+        /// 订阅服务的委托
+        /// </summary>
+        /// <param name="sender"></param>
+        public delegate void HWMSServerEventHandler(object sender,string message);
+        /// <summary>
+        /// 服务的事件
+        /// </summary>
+        private static event HWMSServerEventHandler HWMSServerEvent;
+
+        ICalculatorDuplexCallback callback = null;
+        HWMSServerEventHandler serviceEventHander = null;
+
         System.Timers.Timer timer;
         private string tempStr = "WCF已开启";
+        static int num = 1;
+
         public HWMSService()
         {
-            result = 0.0D;
-            equation = result.ToString();
             timer = new System.Timers.Timer(2000);
             timer.Elapsed += Timer_Elapsed;
             timer.Start();
         }
 
 
+        /// <summary>
+        /// 伪装数据源触发发布角色
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             //TODO：推送消息到MQ转发程序
@@ -36,7 +51,7 @@ namespace AbountCORS.WCFService
             if (callback != null && !string.IsNullOrEmpty(tempStr))
             {
                 tempStr = tempStr + "|" + DateTime.Now.ToString();
-                callback.SendMsg(tempStr);
+                Upload(tempStr);
             }
         }
 
@@ -45,12 +60,25 @@ namespace AbountCORS.WCFService
             //TODO：应用层处理MQ消息
             tempStr = msg;
             Thread.Sleep(10);
-            callback.ResultOfUpload("处理成功\r\n===================================");
+            num++;
+            HWMSServerEvent(this, num + "_消息；" + DateTime.Now.ToString());
         }
 
-        public void OnLine()
+        public void Subscribe()
         {
             callback = OperationContext.Current.GetCallbackChannel<ICalculatorDuplexCallback>();
+            this.serviceEventHander = new HWMSServerEventHandler(SendMsgHandler);
+            HWMSServerEvent += serviceEventHander;
+        }
+
+        public void Unsubscribe()
+        {
+            HWMSServerEvent -= serviceEventHander;
+        }
+
+        public void SendMsgHandler(object sender,string message)
+        {
+            callback.SendMsgToClient(message);
         }
     }
 }

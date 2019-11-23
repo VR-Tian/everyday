@@ -126,7 +126,7 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsp:Policy wsu:Id="WSDualHttpBinding_ICalculatorDuplex_OnLine_Input_policy">
+  <wsp:Policy wsu:Id="WSDualHttpBinding_ICalculatorDuplex_Subscribe_Input_policy">
     <wsp:ExactlyOne>
       <wsp:All>
         <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
@@ -149,7 +149,7 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsp:Policy wsu:Id="WSDualHttpBinding_ICalculatorDuplex_SendMsg_output_policy">
+  <wsp:Policy wsu:Id="WSDualHttpBinding_ICalculatorDuplex_Subscribe_output_policy">
     <wsp:ExactlyOne>
       <wsp:All>
         <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
@@ -172,7 +172,53 @@
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  <wsp:Policy wsu:Id="WSDualHttpBinding_ICalculatorDuplex_ResultOfUpload_output_policy">
+  <wsp:Policy wsu:Id="WSDualHttpBinding_ICalculatorDuplex_Unsubscribe_Input_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSDualHttpBinding_ICalculatorDuplex_Unsubscribe_output_policy">
+    <wsp:ExactlyOne>
+      <wsp:All>
+        <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+          <sp:Header Name="Sequence" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="SequenceAcknowledgement" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="AckRequested" Namespace="http://schemas.xmlsoap.org/ws/2005/02/rm" />
+          <sp:Header Name="ChannelInstance" Namespace="http://schemas.microsoft.com/ws/2005/02/duplex" />
+          <sp:Header Name="To" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="From" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="FaultTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="ReplyTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="MessageID" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="RelatesTo" Namespace="http://www.w3.org/2005/08/addressing" />
+          <sp:Header Name="Action" Namespace="http://www.w3.org/2005/08/addressing" />
+        </sp:SignedParts>
+        <sp:EncryptedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
+          <sp:Body />
+        </sp:EncryptedParts>
+      </wsp:All>
+    </wsp:ExactlyOne>
+  </wsp:Policy>
+  <wsp:Policy wsu:Id="WSDualHttpBinding_ICalculatorDuplex_SendMsgToClient_output_policy">
     <wsp:ExactlyOne>
       <wsp:All>
         <sp:SignedParts xmlns:sp="http://schemas.xmlsoap.org/ws/2005/07/securitypolicy">
@@ -204,27 +250,35 @@
   <wsdl:message name="ICalculatorDuplex_Upload_InputMessage">
     <wsdl:part name="parameters" element="tns:Upload" />
   </wsdl:message>
-  <wsdl:message name="ICalculatorDuplex_OnLine_InputMessage">
-    <wsdl:part name="parameters" element="tns:OnLine" />
+  <wsdl:message name="ICalculatorDuplex_Subscribe_InputMessage">
+    <wsdl:part name="parameters" element="tns:Subscribe" />
   </wsdl:message>
-  <wsdl:message name="ICalculatorDuplex_SendMsg_OutputCallbackMessage">
-    <wsdl:part name="parameters" element="tns:SendMsg" />
+  <wsdl:message name="ICalculatorDuplex_Subscribe_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SubscribeResponse" />
   </wsdl:message>
-  <wsdl:message name="ICalculatorDuplex_ResultOfUpload_OutputCallbackMessage">
-    <wsdl:part name="parameters" element="tns:ResultOfUpload" />
+  <wsdl:message name="ICalculatorDuplex_Unsubscribe_InputMessage">
+    <wsdl:part name="parameters" element="tns:Unsubscribe" />
+  </wsdl:message>
+  <wsdl:message name="ICalculatorDuplex_Unsubscribe_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UnsubscribeResponse" />
+  </wsdl:message>
+  <wsdl:message name="ICalculatorDuplex_SendMsgToClient_OutputCallbackMessage">
+    <wsdl:part name="parameters" element="tns:SendMsgToClient" />
   </wsdl:message>
   <wsdl:portType msc:usingSession="true" name="ICalculatorDuplex">
     <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Upload">
       <wsdl:input wsaw:Action="http://tempuri.org/ICalculatorDuplex/Upload" message="tns:ICalculatorDuplex_Upload_InputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="OnLine">
-      <wsdl:input wsaw:Action="http://tempuri.org/ICalculatorDuplex/OnLine" message="tns:ICalculatorDuplex_OnLine_InputMessage" />
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="Subscribe">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICalculatorDuplex/Subscribe" message="tns:ICalculatorDuplex_Subscribe_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICalculatorDuplex/SubscribeResponse" message="tns:ICalculatorDuplex_Subscribe_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SendMsg">
-      <wsdl:output wsaw:Action="http://tempuri.org/ICalculatorDuplex/SendMsg" message="tns:ICalculatorDuplex_SendMsg_OutputCallbackMessage" />
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="true" name="Unsubscribe">
+      <wsdl:input wsaw:Action="http://tempuri.org/ICalculatorDuplex/Unsubscribe" message="tns:ICalculatorDuplex_Unsubscribe_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ICalculatorDuplex/UnsubscribeResponse" message="tns:ICalculatorDuplex_Unsubscribe_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="ResultOfUpload">
-      <wsdl:output wsaw:Action="http://tempuri.org/ICalculatorDuplex/ResultOfUpload" message="tns:ICalculatorDuplex_ResultOfUpload_OutputCallbackMessage" />
+    <wsdl:operation msc:isInitiating="true" msc:isTerminating="false" name="SendMsgToClient">
+      <wsdl:output wsaw:Action="http://tempuri.org/ICalculatorDuplex/SendMsgToClient" message="tns:ICalculatorDuplex_SendMsgToClient_OutputCallbackMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="WSDualHttpBinding_ICalculatorDuplex" type="tns:ICalculatorDuplex">
@@ -237,24 +291,32 @@
         <soap12:body use="literal" />
       </wsdl:input>
     </wsdl:operation>
-    <wsdl:operation name="OnLine">
-      <soap12:operation soapAction="http://tempuri.org/ICalculatorDuplex/OnLine" style="document" />
+    <wsdl:operation name="Subscribe">
+      <soap12:operation soapAction="http://tempuri.org/ICalculatorDuplex/Subscribe" style="document" />
       <wsdl:input>
-        <wsp:PolicyReference URI="#WSDualHttpBinding_ICalculatorDuplex_OnLine_Input_policy" />
+        <wsp:PolicyReference URI="#WSDualHttpBinding_ICalculatorDuplex_Subscribe_Input_policy" />
         <soap12:body use="literal" />
       </wsdl:input>
-    </wsdl:operation>
-    <wsdl:operation name="SendMsg">
-      <soap12:operation soapAction="http://tempuri.org/ICalculatorDuplex/SendMsg" style="document" />
       <wsdl:output>
-        <wsp:PolicyReference URI="#WSDualHttpBinding_ICalculatorDuplex_SendMsg_output_policy" />
+        <wsp:PolicyReference URI="#WSDualHttpBinding_ICalculatorDuplex_Subscribe_output_policy" />
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="ResultOfUpload">
-      <soap12:operation soapAction="http://tempuri.org/ICalculatorDuplex/ResultOfUpload" style="document" />
+    <wsdl:operation name="Unsubscribe">
+      <soap12:operation soapAction="http://tempuri.org/ICalculatorDuplex/Unsubscribe" style="document" />
+      <wsdl:input>
+        <wsp:PolicyReference URI="#WSDualHttpBinding_ICalculatorDuplex_Unsubscribe_Input_policy" />
+        <soap12:body use="literal" />
+      </wsdl:input>
       <wsdl:output>
-        <wsp:PolicyReference URI="#WSDualHttpBinding_ICalculatorDuplex_ResultOfUpload_output_policy" />
+        <wsp:PolicyReference URI="#WSDualHttpBinding_ICalculatorDuplex_Unsubscribe_output_policy" />
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendMsgToClient">
+      <soap12:operation soapAction="http://tempuri.org/ICalculatorDuplex/SendMsgToClient" style="document" />
+      <wsdl:output>
+        <wsp:PolicyReference URI="#WSDualHttpBinding_ICalculatorDuplex_SendMsgToClient_output_policy" />
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
