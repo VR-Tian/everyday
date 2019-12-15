@@ -19,22 +19,10 @@ namespace ConsoleApp.WCFService
         {
             this.OnDownloadMsgReceived = executeDownloadDelegate;
         }
-        public virtual void ResultOfUpload(string processMessage)
-        {
-            Console.WriteLine(processMessage);
-        }
-
-        public virtual void SendMsg(string serviceMessage)
-        {
-            Console.WriteLine("==============服务端开始推送消息=================");
-            //TODO：通过委托调用MQ发送函数
-            OnDownloadMsgReceived?.Invoke(serviceMessage);
-            Console.WriteLine(serviceMessage);
-        }
 
         public void SendMsgToClient(string serviceMessage)
         {
-            Console.WriteLine("==============服务端开始推送消息=================");
+            Console.WriteLine("==============服务端开始推送消息" + DateTime.Now + "===============");
             Console.WriteLine(serviceMessage);
         }
     }

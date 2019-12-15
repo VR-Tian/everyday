@@ -10,13 +10,15 @@
 namespace WebApplication.Models
 {
     using System;
+    using System.Collections.Generic;
     
-    [Flags]
-    public enum OrderStatus : short
+    public partial class CategoryProeryValue
     {
-        Created = 1,
-        Updated = 2,
-        Deleted = 3,
-        NoShow = 4
+        public System.Guid Id { get; set; }
+        public string ValueData { get; set; }
+        public string SortOrder { get; set; }
+        public string Status { get; set; }
+    
+        public virtual CategoryProery CategoryProery { get; set; }
     }
 }

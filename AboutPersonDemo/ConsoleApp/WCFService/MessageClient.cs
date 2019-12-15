@@ -70,8 +70,8 @@ namespace ConsoleApp.WCFService
         /// <param name="msg"></param>
         public void SendMsg(string msg)
         {
-            //client.Upload(msg);
-            Console.WriteLine(msg);
+            client.Upload(msg);
+            //Console.WriteLine(msg);
         }
     }
 }

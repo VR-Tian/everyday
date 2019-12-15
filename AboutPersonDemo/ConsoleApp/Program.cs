@@ -103,6 +103,22 @@ namespace ConsoleApp
         static MessageClient clientService;
         static void Main(string[] args)
         {
+            var xmlContent = File.OpenText(@"C:\Users\tian\Desktop\处理JAVA调用ComDLL\test.xml");
+            var temp = xmlContent.ReadToEnd();
+
+            var ca_File_path = @"C:\Users\tian\Desktop\处理JAVA调用ComDLL\cacert.pem";
+
+            var cert_path = @"C:\Users\tian\Desktop\处理JAVA调用ComDLL\client_350205311001_cert.pem";
+
+            var key_path = @"C:\Users\tian\Desktop\处理JAVA调用ComDLL\client_key.pem";
+
+            var ipAddress = "211.144.37.210";
+
+            var point = 33388;
+
+            var retulrValue = chinadtcClient.SslTcpClient.updataXML(temp, ipAddress, point, ca_File_path, cert_path, key_path);
+            Console.Write(retulrValue);
+            Console.Read();
 
             #region 20191106
             //List<int> list = new List<int>() { 1, 2, 2, 3, 4, 5 };

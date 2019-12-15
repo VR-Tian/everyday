@@ -21,8 +21,8 @@ namespace WebApplication
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            //路由规则优先匹配第一条配置，以下配置不会被捕获
-            config.Routes.Add("DefaultApiOfParamName", new HttpRoute("api/{controller}/{username}", new HttpRouteValueDictionary(new { username = RouteParameter.Optional })));
+            ////路由规则优先匹配第一条配置，以下配置不会被捕获
+            //config.Routes.Add("DefaultApiOfParamName", new HttpRoute("api/{controller}/{username}", new HttpRouteValueDictionary(new { username = RouteParameter.Optional })));
         }
     }
 }

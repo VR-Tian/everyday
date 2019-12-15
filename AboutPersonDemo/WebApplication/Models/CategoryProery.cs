@@ -12,23 +12,23 @@ namespace WebApplication.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Order
+    public partial class CategoryProery
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Order()
+        public CategoryProery()
         {
-            this.OrderItem = new HashSet<OrderItem>();
-            this.OrderContract = new HashSet<OrderContract>();
+            this.CategoryProeryValue = new HashSet<CategoryProeryValue>();
         }
     
         public System.Guid Id { get; set; }
-        public string OrderNumer { get; set; }
-        public System.DateTime CreateDate { get; set; }
-        public OrderStatus Status { get; set; }
+        public string Name { get; set; }
+        public string Status { get; set; }
+        public bool IsRequire { get; set; }
+        public bool IsMult { get; set; }
+        public int SortOrder { get; set; }
     
+        public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderItem> OrderItem { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderContract> OrderContract { get; set; }
+        public virtual ICollection<CategoryProeryValue> CategoryProeryValue { get; set; }
     }
 }

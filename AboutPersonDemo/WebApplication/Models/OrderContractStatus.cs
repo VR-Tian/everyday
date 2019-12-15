@@ -12,11 +12,9 @@ namespace WebApplication.Models
     using System;
     
     [Flags]
-    public enum OrderStatus : short
+    public enum OrderContractStatus : short
     {
-        Created = 1,
-        Updated = 2,
-        Deleted = 3,
-        NoShow = 4
+        Enable = 1,
+        Disable = 2
     }
 }

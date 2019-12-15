@@ -12,11 +12,10 @@ namespace WebApplication.Models
     using System;
     
     [Flags]
-    public enum OrderStatus : short
+    public enum SortOrder : short
     {
-        Created = 1,
-        Updated = 2,
-        Deleted = 3,
-        NoShow = 4
+        Unspecified = -1,
+        Ascending = 0,
+        Descending = 1
     }
 }

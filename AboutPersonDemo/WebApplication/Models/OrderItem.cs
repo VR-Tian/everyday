@@ -10,13 +10,15 @@
 namespace WebApplication.Models
 {
     using System;
+    using System.Collections.Generic;
     
-    [Flags]
-    public enum OrderStatus : short
+    public partial class OrderItem
     {
-        Created = 1,
-        Updated = 2,
-        Deleted = 3,
-        NoShow = 4
+        public System.Guid Id { get; set; }
+        public decimal Price { get; set; }
+        public int Quantity { get; set; }
+    
+        public virtual Order Order { get; set; }
+        public virtual Product Product { get; set; }
     }
 }

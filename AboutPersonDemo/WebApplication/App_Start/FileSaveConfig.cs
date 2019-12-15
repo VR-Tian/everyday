@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Spire.Xls;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
+using System.Xml.Linq;
 
 namespace WebApplication.App_Start
 {
@@ -16,7 +18,7 @@ namespace WebApplication.App_Start
         /// <param name="fileName">文件名称(包含后缀)</param>
         /// <param name="fileInfo">当前文件实例</param>
         /// <returns></returns>
-        public static HttpResponseMessage SaveFileProc(string filePath,string fileName, FileInfo fileInfo)
+        public static HttpResponseMessage SaveFileProc(string filePath, string fileName, FileInfo fileInfo)
         {
             HttpResponseMessage message = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
             message.StatusCode = System.Net.HttpStatusCode.OK;
@@ -38,6 +40,12 @@ namespace WebApplication.App_Start
                 }
                 var saveurl = Path.Combine(filePath, fileName);
                 fileInfo.MoveTo(saveurl);
+                using (Workbook workbook = new Workbook())
+                {
+                    workbook.LoadFromFile(saveurl);
+                    workbook.SaveAsXml(Path.Combine(filePath, fileName + ".xml"));
+                }
+                CheckExcelFileDataHander(Path.Combine(filePath, fileName + ".xml"));
                 return message;
             }
             catch (Exception ex)
@@ -46,6 +54,20 @@ namespace WebApplication.App_Start
                 message.Content = new StringContent(ex.Message);
                 return message;
             }
+        }
+
+        private static void CheckExcelFileDataHander(string filepath)
+        {
+            XElement purchaseOrder = XElement.Load(filepath);
+
+            IEnumerable<XElement> partNos = from item in purchaseOrder.Descendants("Row")
+                                            select item;
+
+            IEnumerable<XElement> partNos1 = from item in purchaseOrder.Elements("Row")
+                                            select item;
+
+            IEnumerable<XElement> partNos2 = from item in purchaseOrder.Descendants("Worksheet")
+                                             select item;
         }
     }
 }

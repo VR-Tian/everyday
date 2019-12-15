@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Spire.Xls;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -20,7 +21,7 @@ namespace WebApplication.Controllers
     {
         public async Task<HttpResponseMessage> PostFormData()
         {
-            var httpResponseMessageOfThis = Request.CreateResponse(HttpStatusCode.HttpVersionNotSupported);
+            var httpResponseMessageOfThis = Request.CreateResponse(HttpStatusCode.NotImplemented);
             //是否包含文件类型请求
             if (!Request.Content.IsMimeMultipartContent())
             {
@@ -32,7 +33,8 @@ namespace WebApplication.Controllers
                 //return httpResponseMessage;
 
                 //异步情况下，为当前响应请求创建响应内容
-
+                //throw new HttpResponseException(HttpStatusCode.UnsupportedMediaType);
+                 httpResponseMessageOfThis = Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
                 httpResponseMessageOfThis.Content = new StringContent(Newtonsoft.Json.JsonConvert.SerializeObject(new { Message = "请检查文件是否上传" }));
                 httpResponseMessageOfThis.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
                 return httpResponseMessageOfThis;
@@ -49,7 +51,7 @@ namespace WebApplication.Controllers
             //    ConfigurationManager.AppSettings.Get("UploadSaveImgPath") : "/Resource/Images";
 
             int.TryParse(ConfigurationManager.AppSettings.Get("UploadImgMaxByte"), out  UploadImgMaxByte);
-            UploadImgMaxByte = UploadImgMaxByte > 0 ? UploadImgMaxByte : 8192;
+            UploadImgMaxByte = UploadImgMaxByte > 0 ? UploadImgMaxByte : 1048576;
 
             try
             {
@@ -85,7 +87,6 @@ namespace WebApplication.Controllers
                         //string saveUrl = Path.Combine(root, newFileName);
 
                         //fileInfo.MoveTo(saveUrl);
-
                         return FileSaveConfig.SaveFileProc(root, newFileName, fileInfo);
                     }
                 }
@@ -95,6 +96,14 @@ namespace WebApplication.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e);
             }
+        }
+
+        public async Task<HttpResponseMessage> Get()
+        {
+            await Task.Run(() => {
+
+            });
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }
